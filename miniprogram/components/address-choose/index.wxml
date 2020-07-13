@@ -1,0 +1,84 @@
+<wxs src="../../utils/tools.wxs" module="tools" />
+<view bindtap="open">
+	<block wx:if="{{current==null}}">
+		<view class="text-grey text-bold">请选择配送地址</view>
+		<view class="text-df text-yellow">配送范围{{tools.showMeter(maximum)}}</view>
+	</block>
+	<block wx:else>
+		<view class="text-cut" style="width: 85vw;">
+			{{list[current].location.name}} {{list[current].content}}</view>
+		<view class="text-df padding-top-xs">
+			<text decode>{{list[current].contacts.name}}({{list[current].contacts.gender=='1'?'先生':'女士'}})&nbsp;&nbsp;{{list[current].contacts.mobile}}</text>
+		</view>
+	</block>
+</view>
+<view class="{{show ? 'weui-show' :'weui-hidden'}}">
+	<view class="weui-mask init"></view>
+	<view class="weui-half-screen-dialog">
+		<view class="weui-half-screen-dialog__hd solid-bottom">
+			<view class="weui-half-screen-dialog__hd__side text-df" catchtap="close">
+				取消
+			</view>
+			<view class="weui-half-screen-dialog__hd__main">
+				<text class="weui-half-screen-dialog__title">我的地址</text>
+			</view>
+			<view class="weui-half-screen-dialog__hd__side text-df" catchtap="affirm">
+				确认
+			</view>
+		</view>
+		<view class="weui-half-screen-dialog__bd" style="padding-bottom:0;">
+			<scroll-view scroll-y scroll-with-animation style="max-height: 50vh;">
+				<block wx:if="{{usable.length>0}}">
+					<radio-group bindchange="choose">
+						<block wx:for="{{usable}}" wx:key="index">
+							<mp-slideview buttons="{{buttons}}" data-index="{{item}}" bindbuttontap="tapSlide">
+								<view class="weui-flex solid-bottom padding-tb">
+									<view class="margin-lr">
+										<radio checked="{{item==current}}" value="{{item}}"></radio>
+									</view>
+									<view class="weui-flex__item" style="width: 80vw;">
+										<view class="text-cut">
+											<text>{{list[item].location.name}} {{list[item].content}}</text>
+										</view>
+										<view class="text-grey">
+											<text decode>{{list[item].contacts.name}}({{list[item].contacts.gender=='1'?'先生':'女士'}})&nbsp;&nbsp;{{list[item].contacts.mobile}}</text>
+										</view>
+									</view>
+								</view>
+							</mp-slideview>	
+						</block>
+					</radio-group>
+				</block>
+				<block wx:else>
+					<view class="padding-bottom text-center">
+						<view class="text-sl padding">
+							<text class="cuIcon-infofill text-grey"></text>
+						</view>
+						<text>没有配送范围内的地址</text>
+					</view>
+				</block>
+				<block wx:if="{{disable.length>0}}">
+					<view class="padding-sm text-left text-df">
+						<text class="cuIcon-location"></text>超出配送范围的地址
+						<text class="text-sm text-red">(配送范围{{tools.showMeter(maximum)}})</text>
+					</view>
+					<view class="solid-top padding-tb" wx:for="{{disable}}" wx:key="index">
+						<view class="margin-lr">
+							<view class="text-left text-sm text-gray text-cut" style="width: 90vw;">
+								<text decode>{{list[item].location.name}}&nbsp;{{list[item].content}}</text>
+							</view>
+							<view class="text-left text-sm text-gray">
+								<text decode>{{list[item].contacts.name}}({{list[item].contacts.gender=='1'?'先生':'女士'}})&nbsp;&nbsp;{{list[item].contacts.mobile}}</text>
+							</view>
+						</view>
+					</view>
+				</block>
+			</scroll-view>
+		</view>
+		<view class="weui-half-screen-dialog__ft">
+			<view class="cu-bar tabbar border bg-gradual-blue" bindtap="create">
+				<view class="submit text-xl"><text class="cuIcon-roundadd"></text> 新增地址</view>
+			</view>
+		</view>
+	</view>
+</view>

@@ -1,0 +1,61 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="菜品状态" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="cu-bar search bg-white">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input value="{{search.temp}}" type="text" maxlength="10" placeholder="搜索菜品名称" confirm-type="search" data-field="search.temp" bindinput="inputChange" bindconfirm="search"></input>
+  </view>
+  <view class="action">
+    <button class="cu-btn bg-green shadow-blur round" bindtap="search">搜索</button>
+  </view>
+</view>
+<scroll-view scroll-y>
+  <view wx:if="{{data.show.length>0}}" class="cu-list menu-avatar margin-top-xs">
+    <block wx:for="{{data.show}}" wx:key="index">
+      <view class="cu-item solid-bottom" data-id="{{item._id}}" bindtap="showDialog">
+        <image class="cu-avatar radius lg" src="{{item.cover}}" mode="aspectFill" lazy-load></image>
+        <view class="content">
+          <view>
+            <text decode>{{item.name}}&nbsp;</text>
+            <text class="text-grey text-sm">{{item.alias}}</text>
+          </view>
+          <view class="text-grey text-sm">销量{{item.statistics.sales}}</view>
+        </view>
+        <view class="action">
+          <view class="text-lg">
+            <text wx:if="{{item.visible}}" class="cuIcon-attention text-green"></text>
+            <text wx:else class="cuIcon-attentionforbid"></text>
+          </view>
+          <view wx:if="{{item.sku.active}}" class="cu-tag round sm">{{item.sku.total-item.sku.count}}</view>
+        </view>
+      </view>
+    </block>
+    <view class="cu-load over"></view>
+  </view>
+  <view wx:else class="text-center">
+    <view class="text-xsl padding">
+      <text class="cuIcon-infofill text-grey"></text>
+    </view>
+    <text>暂无数据</text>
+  </view>
+  <my-footer></my-footer>
+</scroll-view>
+<mp-dialog title="{{current.name}}" show="{{dialog}}" bindbuttontap="tapDialog" buttons="{{buttons}}" ext-class="my-dialog">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form>
+    <mp-cells>
+      <mp-cell title="限量销售">
+        <view slot="footer">
+          <switch checked="{{form.sku.active}}" data-field="form.sku.active" bindchange="switchChange"></switch>
+        </view>
+      </mp-cell>
+      <mp-cell wx:if="{{form.sku.active}}" title="剩余数量">
+        <input class="weui-input" type="number" value="{{form.sku.total}}" maxlength="3" placeholder="请输入积分数量" data-field="form.sku.total" bindinput="inputNumber"></input>
+      </mp-cell>
+      <mp-cell title="是否公开">
+        <view slot="footer">
+          <switch checked="{{form.visible}}" data-field="form.visible" bindchange="switchChange"></switch>
+        </view>
+      </mp-cell>
+    </mp-cells>
+  </mp-form>
+</mp-dialog>

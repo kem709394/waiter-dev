@@ -1,0 +1,45 @@
+<view class="{{show ? 'weui-show' :'weui-hidden'}}">
+	<view class="weui-mask init" bindtap="close"></view>
+	<view class="weui-half-screen-dialog">
+		<view class="weui-half-screen-dialog__hd solid-bottom">
+			<view class="weui-half-screen-dialog__hd__side text-df" catchtap="close">
+				<text class="cuIcon-unfold"></text>收起
+			</view>
+			<view class="weui-half-screen-dialog__hd__main">
+				<text class="weui-half-screen-dialog__title">已选菜品</text>
+			</view>
+			<view class="weui-half-screen-dialog__hd__side text-df" bindtap="clear">
+				<text class="cuIcon-deletefill"></text>清空
+			</view>
+		</view>
+		<view class="weui-half-screen-dialog__bd" style="padding-bottom:0;">
+			<scroll-view scroll-y style="max-height: 50vh;">
+				<view class="cu-list menu-avatar">
+					<view class="cu-item {{index==0?'':'solid-top'}}" wx:for="{{list}}" wx:key="index">
+						<image class="cu-avatar radius lg" src="{{data[item].cover}}" mode="aspectFit"></image>
+						<view class="content flex">
+							<view class="flex-treble flex align-center">
+								<view class="text-left">
+									<view>{{data[item].name}}</view>
+									<view class="text-gray">销量{{data[item].sales_amount}}</view>
+								</view>
+							</view>
+							<view class="flex-sub flex justify-center align-center">
+								<block wx:if="{{data[item].type=='vary'}}">
+									<text class="text-red text-bold">{{data[item].price_note}}</text>
+								</block>
+								<block wx:else>
+									<text class="text-red text-xl text-bold">¥{{data[item].price/100}}</text>
+								</block>
+							</view>
+						</view>
+						<view class="action">
+							<view class="cu-tag line-yellow" data-id="{{item}}" catchtap="remove">删除</view>
+						</view>
+					</view>
+				</view>
+			</scroll-view>
+			<view class="cu-tabbar-height"></view>
+		</view>
+	</view>
+</view>

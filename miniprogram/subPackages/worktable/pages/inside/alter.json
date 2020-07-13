@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-form": "weui-miniprogram/form/form",
+    "mp-dialog": "weui-miniprogram/dialog/dialog",
+    "my-toptips": "/components/toptips/index",
+    "my-footer": "/components/footer/index",
+    "choose-time": "../../components/choose-time/index",
+    "choose-inside-table": "../../components/choose-inside-table/index"
+  }
+}

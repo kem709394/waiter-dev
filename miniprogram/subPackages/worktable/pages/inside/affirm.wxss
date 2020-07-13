@@ -1,0 +1,13 @@
+.count-btn {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.counter {
+  min-width: 58rpx;
+  text-align: center;
+}
+
+.my-cells .weui-cells {
+  margin-top: 0;
+}

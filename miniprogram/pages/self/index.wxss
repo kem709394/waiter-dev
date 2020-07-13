@@ -1,0 +1,9 @@
+.UCenter-bg {
+  background-image: url(https://s2.ax1x.com/2019/09/24/uASwW9.jpg);
+  background-size: cover;
+  overflow: hidden;
+}
+
+.my-dialog .weui-dialog__bd {
+  padding: 0;
+}

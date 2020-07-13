@@ -1,0 +1,28 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="首页设置" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__bd">
+		<my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+		<mp-form id="form" rules="{{rules}}" models="{{models}}">
+			<mp-cells title="轮播图片">
+        <mp-cell>
+          <my-album value="{{form.swiper}}" limit="8" bind:change="albumChange"></my-album>
+        </mp-cell>
+      </mp-cells>
+      <mp-cells title="简介内容">
+        <mp-cell title="开启简介">
+          <view slot="footer">
+            <switch checked="{{form.summary.active}}" data-field="form.summary.active" bindchange="switchChange"></switch>
+          </view>
+        </mp-cell>
+        <view class="padding">
+          <my-editor style="height: auto;" value="{{form.summary.content}}" placeholder="请输入简介内容" readOnly="{{flag}}" data-field="form.summary.content" bind:change="editorChange"></my-editor>
+        </view>
+      </mp-cells>
+		</mp-form>
+    <my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">保 存</button>
+    </view>
+	</view>
+</view>

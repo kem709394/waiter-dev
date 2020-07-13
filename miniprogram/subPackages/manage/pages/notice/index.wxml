@@ -1,0 +1,66 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<drawer title="{{title}}" refresher="{{true}}" bind:refresh="init" bind:lower="load">
+  <view slot="header" id="header" class="cu-bar search bg-white">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input value="{{search.temp}}" type="text" maxlength="4" placeholder="搜索公告标题" confirm-type="search" data-field="search.temp" bindinput="inputChange" bindconfirm="search"></input>
+    </view>
+    <view class="action">
+      <button class="cu-btn bg-green shadow-blur round" bindtap="search">搜索</button>
+    </view>
+  </view>
+  <view slot="content" class="margin-top-xs">
+    <view wx:if="{{total>0}}" class="weui-panel weui-panel_access">
+      <view class="weui-panel__bd">
+        <block wx:for="{{list}}" wx:key="index">
+          <mp-slideview buttons="{{buttons}}" data-index="{{index}}" bindbuttontap="tapSlide">
+            <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" data-index="{{index}}" bindtap="detail">
+              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">{{item.title}}</view>
+                <view class="weui-media-box__desc">
+                  <text class="cuIcon-time text-gray"></text>
+                  <text decode>&nbsp;{{item.date_string}}&nbsp;&nbsp;</text>
+                </view>
+              </view>
+              <view class="weui-media-box__ft weui-media-box__ft_in-appmsg">
+                <view wx:if="{{item.visible}}" class="cu-tag bg-green">公开</view>
+                <view wx:else class="cu-tag">隐藏</view>
+              </view>
+            </view>
+          </mp-slideview>
+        </block>
+      </view>
+    </view>
+    <view wx:else class="text-center">
+      <view class="text-xsl padding">
+        <text class="cuIcon-infofill text-grey"></text>
+      </view>
+      <text>暂无数据</text>
+    </view>
+    <view wx:if="{{loading}}" class="cu-load loading"></view>
+    <view wx:if="{{finish}}" class="cu-load over"></view>
+    <my-footer></my-footer>
+  </view>
+  <view slot="footer" id="footer" class="cu-bar bg-white tabbar border shop foot fix-bar">
+    <view class="action">
+      <view class="cuIcon-attentionforbid">
+        <view class="cu-tag badge">{{hide}}</view>
+      </view>
+      隐藏
+    </view>
+    <view class="action">
+      <view class="cuIcon-attention">
+        <view class="cu-tag badge">{{show}}</view>
+      </view>
+      公开
+    </view>
+    <view class="action">
+      <view class="cuIcon-all">
+        <view class="cu-tag badge">{{total}}</view>
+      </view>
+      总数
+    </view>
+    <view wx:if="{{tools.inArray('notice-create', privilege)}}" class="submit text-xl bg-gradual-blue" bindtap="create">添加</view>
+    <view wx:else class="bg-grey submit text-xl">添加</view>
+  </view>
+</drawer>

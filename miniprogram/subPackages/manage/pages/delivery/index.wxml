@@ -1,0 +1,42 @@
+<drawer title="{{title}}" refresher="{{true}}" bind:refresh="init" bind:lower="load">
+  <view slot="header" id="header" class="cu-bar search bg-white">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input value="{{search.temp}}" type="text" maxlength="5" placeholder="搜索配送员姓名" confirm-type="search" data-field="search.temp" bindinput="inputChange" bindconfirm="search"></input>
+    </view>
+    <view class="action">
+      <button class="cu-btn bg-green shadow-blur round" bindtap="search">搜索</button>
+    </view>
+  </view>
+  <view slot="content" class="margin-top-xs">
+    <mp-cells wx:if="{{list.length}}">
+      <mp-cell wx:for="{{list}}" wx:key="index" data-index="{{index}}" bindtap="detail" link>
+        <image slot="icon" src="{{staff.data[item.delivery_sid].avatar}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+        <view>
+          <text>{{staff.data[item.delivery_sid].full_name}}</text>
+        </view>
+        <view slot="footer">
+          <view>
+            <view wx:if="{{item.state==1}}" class="cu-tag bg-yellow sm">配送中</view>
+            <view wx:if="{{item.state==2}}" class="cu-tag bg-green sm">已完成</view>
+            <view wx:if="{{item.state==3}}" class="cu-tag bg-black sm">已退回</view>
+          </view>
+          <view class="weui-media-box__desc">
+            <view class="text-xs text-grey">{{item.delivery_time}}</view>
+          </view>
+        </view>
+      </mp-cell>
+    </mp-cells>
+    <view wx:if="{{loading}}" class="cu-load loading"></view>
+    <block wx:if="{{finish}}">
+      <view wx:if="{{list.length}}" class="cu-load over"></view>
+      <view wx:else class="text-center">
+        <view class="text-xsl padding">
+          <text class="cuIcon-infofill text-grey"></text>
+        </view>
+        <text>暂无数据</text>
+      </view>
+    </block>
+    <my-footer></my-footer>
+  </view>
+</drawer>

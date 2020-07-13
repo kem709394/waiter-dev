@@ -1,0 +1,51 @@
+<wxs src="../../utils/tools.wxs" module="tools" />
+<view class="link-box {{active?'show':''}}" bindtap="toggle">
+  <view class="link main" catchtap="toggle">
+    <image src="/images/waiter.png" mode="aspectFit"></image>
+    <mp-badge wx:if="{{invoke.list.length}}" content="{{invoke.list.length}}" style="position: absolute;top: -.4em;right: -.4em;"/>
+  </view>
+  <button animation="{{assist.animation}}" class="cu-btn icon link menu" open-type="share">
+    <image src="/images/assist.png"></image>
+  </button>
+  <button animation="{{invoke.animation}}" class="cu-btn icon link menu" bindtap="showInvoke">
+    <image src="/images/invoke.png"></image>
+    <mp-badge wx:if="{{invoke.list.length}}" content="{{invoke.list.length}}" style="position: absolute;top: -.4em;right: -.4em;"/>
+  </button>
+</view>
+<mp-dialog ext-class="my-dialog" title="呼叫服务员" show="{{invoke.show}}" buttons="{{invoke.buttons}}" bindbuttontap="tapInvoke">
+  <scroll-view scroll-y scroll-with-animation style="max-height: 50vh;">
+    <view class="weui-cells">
+      <block wx:for="{{invoke.list}}" wx:key="index">
+        <view class="weui-cell">
+          <view class="weui-cell__bd text-left">
+            <view>{{item.note}}</view>
+            <view class="padding-top-sm">
+              <text class="cuIcon-time lg"></text>
+              <text>{{tools.differTime(item.time,current)}}</text>
+            </view>
+          </view>
+          <view class="weui-cell__ft">
+            <view class="cu-tag bg-red" data-id="{{item._id}}" bindtap="cancelInvoke">取消</view>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class="weui-cells">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <input class="weui-input text-left" value="{{invoke.note}}" maxlength="10" placeholder="请输入服务内容" bindinput="inputInvoke"></input>
+        </view>
+        <view class="weui-cell__ft">
+          <view class="cu-tag bg-green" bindtap="submitInvoke">提交</view>
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd text-left">
+          <block wx:for="{{serviceOptions}}" wx:key="index">
+            <view class="cu-tag line-gray" data-value="{{item}}" bindtap="tagInvoke">{{item}}</view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</mp-dialog>

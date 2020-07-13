@@ -1,0 +1,23 @@
+<block wx:for="{{list}}" wx:key="index">
+	<mp-slideview buttons="{{buttons}}" data-index="{{index}}" bindbuttontap="tapItem">
+		<mp-cell>
+			<view>
+        <text>{{item.start}}时至{{item.end}}时</text>
+    	</view>
+			<view slot="footer">
+        <text class="cuIcon-roundleftfill-copy lg"></text>
+      </view>
+		</mp-cell>
+	</mp-slideview>
+</block>
+<view wx:if="{{list.length==0}}" class="padding text-center">
+	<text class="cuIcon-infofill lg"></text> 暂无时间
+</view>
+<mp-cell>
+	<view class="margin dashed">
+		<view class="padding-tb text-center" bindtap="create">
+			<text class="cuIcon-add"></text>添加
+		</view>
+	</view>
+</mp-cell>
+<my-timerange show="{{show}}" value="{{form}}" bind:affirm="affirm"></my-timerange>

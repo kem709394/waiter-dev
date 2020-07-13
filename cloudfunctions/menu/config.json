@@ -1,0 +1,9 @@
+{
+  "triggers": [
+    {
+      "name": "menuTask",
+      "type": "timer",
+      "config": "0 0 0 * * * *"
+    }
+  ]
+}

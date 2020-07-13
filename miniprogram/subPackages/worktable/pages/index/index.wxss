@@ -1,0 +1,55 @@
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav-li {
+  padding: 30rpx;
+  border-radius: 12rpx;
+  width: 30%;
+  margin: 0 1.5% 40rpx;
+  background-image: url(https://image.weilanwl.com/color2.0/cardBg.png);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-li::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background-color: inherit;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: -10%;
+  border-radius: 10rpx;
+  opacity: 0.2;
+  transform: scale(0.9, 0.9);
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 300;
+}
+
+.nav-title::first-letter {
+  font-size: 40rpx;
+  margin-right: 4rpx;
+}
+
+.nav-li image {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  right: 30rpx;
+  top: 30rpx;
+  font-size: 52rpx;
+  text-align: center;
+  line-height: 60rpx;
+}
+
+.my-cell.weui-cell {
+  padding: 0;
+}

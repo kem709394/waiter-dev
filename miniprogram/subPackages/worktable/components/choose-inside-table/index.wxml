@@ -1,0 +1,44 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<view bindtap="open">
+	<text wx:if="{{value==''}}">未选择餐桌</text>
+  <text wx:else>{{value}}</text>
+</view>
+<view class="{{show ? 'weui-show' :'weui-hidden'}}">
+	<view class="weui-mask init" bindtap="close"></view>
+	<view class="weui-half-screen-dialog">
+		<view class="weui-half-screen-dialog__hd solid-bottom">
+			<view class="weui-half-screen-dialog__hd__side text-df" catchtap="close">
+				取消
+			</view>
+			<view class="weui-half-screen-dialog__hd__main">
+				<text class="weui-half-screen-dialog__title">可选餐桌</text>
+			</view>
+			<view class="weui-half-screen-dialog__hd__side text-df" bindtap="affirm">
+				确认
+			</view>
+		</view>
+		<view class="weui-half-screen-dialog__bd" style="padding-bottom:0;">
+			<scroll-view scroll-y style="max-height: 50vh;">
+				<radio-group style="width: 100%;" bindchange="choose">
+					<view class="cu-list menu">
+						<view wx:for="{{list}}" wx:key="index" class="cu-item">
+							<view class="content flex">
+								<view class="flex-treble text-left" style="display:block;">
+									<view>
+										<text class="text-black" decode>{{item.name}}&nbsp;</text>
+										<text class="text-sm">可坐{{item.contain}}人</text>
+										<view wx:if="{{table.state[item.name]}}" class="cu-tag sm line-red">有人</view>
+                  	<view wx:else class="cu-tag sm line-green">空闲</view>
+									</view>
+								</view>
+								<view class="flex-sub text-right">
+									<radio class="round" checked="{{item.name==checked}}" value="{{item.name}}"></radio>
+								</view>
+							</view>
+						</view>
+					</view>
+				</radio-group>
+			</scroll-view>
+		</view>
+	</view>
+</view>

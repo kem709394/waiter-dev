@@ -1,0 +1,138 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<view class="my-drawer {{show?'show':''}}">
+	<view class="cu-custom" style="height:{{customBarHeight}}px">
+		<view class="cu-bar fixed bg-gradual-blue" style="height:{{customBarHeight}}px;padding-top:{{statusBarHeight}}px;">
+			<view class="action border-custom" style="width:{{menuButton.width}}px;height:{{menuButton.height}}px;margin-left:calc(100vw - {{menuButton.right}}px);">
+				<text class="cuIcon-back" style="font-size:{{menuButton.height/2}}px;" bindtap="back"></text>
+				<text class="cuIcon-apps" style="font-size:{{menuButton.height/2}}px;" bindtap="open"></text>
+			</view>
+			<view class="content" style="top:{{statusBarHeight}}rpx;pointer-events:auto;" bindtap="touchTop">
+				{{title}}
+			</view>
+		</view>
+	</view>
+  <view class="page">
+    <view class="page__bd">
+      <slot name="header"></slot>
+      <scroll-view scroll-y scroll-top="{{scrolltop}}" style="height: calc(100vh - {{customBarHeight}}px - {{headerHeight}}px - {{footerHeight}}px);" refresher-enabled="{{refresher}}" refresher-triggered="{{triggered}}" bindrefresherrefresh="refresh" bindscrolltolower="scrolltolower">
+        <slot name="content"></slot>
+      </scroll-view>
+      <slot name="footer"></slot>
+    </view>
+  </view>
+</view>
+<view wx:if="{{!show}}" class="float-ball" style="left: calc({{floatBall[0]}}px - 50rpx);top: calc({{floatBall[1]}}px - 50rpx);" bindtouchmove="ballMove" catchtap="open">
+	<image src="/images/menu.png" mode="aspectFit"></image>
+</view>
+<view class="my-drawer-close {{show?'show':''}}" bindtap="close">
+	<text class="cuIcon-pullright"></text>
+</view>
+<scroll-view scroll-y class="my-drawer-menu {{show?'show':''}} bg-gradual-blue">
+	<view style="height: {{customBarHeight}}px;" class="flex justify-center align-center">
+		<image style="height: {{customBarHeight/2}}px;" mode="aspectFit" src="/images/logo.png"></image>
+	</view>
+	<view class="cu-list menu card-menu margin-top-xs margin-bottom-xl shadow-lg">
+		<view class="cu-item arrow" bindtap="worktable">
+			<view class="content">
+				<text class="cuIcon-circle text-grey"></text>
+				<text class="text-grey">服务中心</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('user', privilege)}}" class="cu-item arrow" data-title="用户管理" data-path="../../pages/user/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-people text-grey"></text>
+				<text class="text-grey">用户管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('staff', privilege)}}" class="cu-item arrow" data-title="职员管理" data-path="../../pages/staff/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-profile text-grey"></text>
+				<text class="text-grey">职员管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('kitchen', privilege)}}" class="cu-item arrow" data-title="厨房管理" data-path="../../pages/kitchen/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-hotfill text-grey"></text>
+				<text class="text-grey">厨房管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('table', privilege)}}" class="cu-item arrow" data-title="餐桌管理" data-path="../../pages/table/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-square text-grey"></text>
+				<text class="text-grey">餐桌管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('column', privilege)}}" class="cu-item arrow" data-title="栏目管理" data-path="../../pages/column/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-list text-grey"></text>
+				<text class="text-grey">栏目管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('menu', privilege)}}" class="cu-item arrow" data-title="菜单管理" data-path="../../pages/menu/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-colorlens text-grey"></text>
+				<text class="text-grey">菜单管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('order', privilege)}}" class="cu-item arrow" data-title="订单管理" data-path="../../pages/order/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-form text-grey"></text>
+				<text class="text-grey">订单管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('notice', privilege)}}" class="cu-item arrow" data-title="公告管理" data-path="../../pages/notice/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-notification text-grey"></text>
+				<text class="text-grey">公告管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('feedback', privilege)}}" class="cu-item arrow" data-title="反馈管理" data-path="../../pages/feedback/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-comment text-grey"></text>
+				<text class="text-grey">反馈管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('printer', privilege)}}" class="cu-item arrow" data-title="打印管理" data-path="../../pages/printer/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-paint text-grey"></text>
+				<text class="text-grey">打印管理</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('delivery', privilege)}}" class="cu-item arrow" data-title="配送记录" data-path="../../pages/delivery/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-deliver text-grey"></text>
+				<text class="text-grey">配送记录</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('payment', privilege)}}" class="cu-item arrow" data-title="支付记录" data-path="../../pages/payment/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-pay text-grey"></text>
+				<text class="text-grey">支付记录</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('report', privilege)}}" class="cu-item arrow" data-title="统计报表" data-path="../../pages/report/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-rank text-grey"></text>
+				<text class="text-grey">统计报表</text>
+			</view>
+		</view>
+		<view wx:if="{{tools.inArray('setting', privilege)}}" class="cu-item arrow" data-title="系统设置" data-path="../../pages/setting/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-settings text-grey"></text>
+				<text class="text-grey">系统设置</text>
+			</view>
+		</view>
+		<view class="cu-item arrow" data-title="用户手册" data-path="../../pages/manual/index" bindtap="redirect">
+			<view class="content">
+				<text class="cuIcon-question text-grey"></text>
+				<text class="text-grey">用户手册</text>
+			</view>
+		</view>
+		<view class="cu-item" bindtap="logout">
+			<view class="content">
+				<text class="cuIcon-exit text-grey"></text>
+				<text class="text-grey">退出后台</text>
+			</view>
+		</view>
+	</view>
+</scroll-view>

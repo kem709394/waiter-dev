@@ -1,0 +1,30 @@
+<view bindtap="open">
+	<text>{{title}}</text>
+	<text class="cuIcon-calendar padding-left-sm"></text>
+</view>
+<view class="{{show ? 'weui-show' :'weui-hidden'}}">
+	<view class="weui-mask init" bindtap="close"></view>
+	<view class="weui-half-screen-dialog">
+		<view class="weui-half-screen-dialog__hd">
+			<view class="weui-half-screen-dialog__hd__side text-df" bindtap="close">
+				取消
+			</view>
+			<view class="weui-half-screen-dialog__hd__main">
+				<text class="weui-half-screen-dialog__title">选择时间</text>
+			</view>
+			<view class="weui-half-screen-dialog__hd__side text-df" bindtap="affirm">
+        确认
+			</view>
+		</view>
+		<view class="weui-half-screen-dialog__bd text-center">
+			<picker-view indicator-style="height: 50px;" style="width: 100%; height: 30vh;" value="{{tempVal}}" bindchange="timeChange">
+        <picker-view-column>
+          <view wx:for="{{days}}" wx:key="index" style="line-height: 50px">{{item.title}}</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{times}}" wx:key="index" style="line-height: 50px">{{item}}</view>
+        </picker-view-column>
+      </picker-view>
+		</view>
+	</view>
+</view>

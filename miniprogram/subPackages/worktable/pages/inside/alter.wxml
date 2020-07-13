@@ -1,0 +1,177 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="订单变更" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__bd">
+    <my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+    <mp-form>
+      <mp-cells ext-class="my-cells">
+        <mp-cell title="订单编号">
+          <view class="text-bold" data-text="{{detail.order_sn}}" bindtap="copyText">{{detail.order_sn}}</view>
+        </mp-cell>
+        <mp-cell wx:if="{{detail.table}}" title="使用餐桌" link>
+          <view slot="footer">
+            <choose-inside-table value="{{table}}" bind:affirm="tableChange"></choose-inside-table>
+          </view>
+        </mp-cell>
+        <mp-cell wx:if="{{detail.mode=='reserve'}}" title="预定时间">
+          <view slot="footer">
+            <choose-time value="{{time_string}}" bind:affirm="timeChange"></choose-time>
+          </view>
+        </mp-cell>
+      </mp-cells>
+      <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__bd">
+          <block wx:for="{{menu_list}}" wx:key="index">
+            <view class="weui-media-box weui-media-box_appmsg">
+              <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                <image class="weui-media-box__thumb" src="{{item.cover}}" />
+              </view>
+              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">
+                  <text class="text-cut">{{item.name}}</text>
+                  <block wx:if="{{item.model}}">({{item.model}})</block>
+                  <view wx:if="{{item.pack}}" class="cu-tag bg-yellow sm">打包</view>
+                  <view wx:if="{{item.gift}}" class="cu-tag line-green sm">赠品</view>
+                </view>
+                <view class="weui-media-box__desc">
+                  <view class="text-sm">
+                    <block wx:if="{{item.type=='combo'}}">
+                      <view wx:for="{{item.combo}}" wx:key="index">
+                        <text>{{item.name}}</text>
+                        <text wx:for="{{item.option}}" wx:key="index"> {{item}}</text>
+                      </view>
+                    </block>
+                    <block wx:else>
+                      <text wx:for="{{item.option}}" wx:key="index" decode>{{item}}&nbsp;</text>
+                    </block>
+                  </view>
+                  <view data-type="1" data-index="{{index}}" bindtap="showRemark">
+                    <text class="cuIcon-edit"></text>
+                    <text wx:if="{{item.remark}}">{{item.remark}}</text>
+                    <text wx:else class="text-gray">备注内容</text>
+                  </view>
+                </view>
+              </view>
+              <view class="weui-media-box__ft flex justify-end align-center">
+                <block wx:if="{{item.type=='vary'}}">
+                  <button class="cu-btn line-yellow sm" data-type="1" data-index="{{index}}" catchtap="showVary">编 辑</button>
+                </block>
+                <block wx:else>
+                  <image class="count-btn" src="/images/sub.png" data-index="{{index}}" catchtap="subAmount"></image>
+                  <view class="counter">
+                    <text>{{item.amount}}</text>
+                  </view>
+                  <image class="count-btn" src="/images/add.png" data-index="{{index}}" catchtap="addAmount"></image>
+                </block>
+              </view>
+            </view>
+          </block>
+          <block wx:for="{{add_menu_list}}" wx:key="index">
+            <view class="weui-media-box weui-media-box_appmsg bg-olive light">
+              <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                <image class="weui-media-box__thumb" src="{{item.cover}}" />
+              </view>
+              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">
+                  <text class="text-cut">{{item.name}}</text>
+                  <block wx:if="{{item.form.model}}">({{item.form.model}})</block>
+                  <view wx:if="{{item.form.pack}}" class="cu-tag bg-yellow sm">打包</view>
+                  <view wx:if="{{item.form.gift}}" class="cu-tag line-green sm">赠品</view>
+                </view>
+                <view class="weui-media-box__desc">
+                  <view class="text-sm">
+                    <block wx:if="{{item.type=='combo'}}">
+                      <block wx:for="{{item.form.combo}}" wx:key="index">
+                        <view wx:for="{{item}}" wx:key="index">
+                          <text>{{menu_data[item.id].name}}</text>
+                          <text wx:for="{{item.option}}" wx:key="index"> {{item}}</text>
+                        </view>
+                      </block>
+                    </block>
+                    <block wx:else>
+                      <text wx:for="{{item.form.option}}" wx:key="index" decode>{{item}}&nbsp;</text>
+                    </block>
+                  </view>
+                  <view data-type="2" data-index="{{index}}" bindtap="showRemark">
+                    <text class="cuIcon-edit"></text>
+                    <text wx:if="{{item.remark}}">{{item.remark}}</text>
+                    <text wx:else class="text-gray">备注内容</text>
+                  </view>
+                </view>
+              </view>
+              <view class="weui-media-box__ft flex justify-end align-center">
+                <block wx:if="{{item.type=='vary'}}">
+                  <button class="cu-btn line-yellow sm" data-type="2" data-index="{{index}}" catchtap="showVary">编 辑</button>
+                </block>
+                <block wx:else>
+                  <image class="count-btn" src="/images/sub.png" data-index="{{index}}" catchtap="subAmount2"></image>
+                  <view class="counter">
+                    <text>{{item.amount}}</text>
+                  </view>
+                  <image class="count-btn" src="/images/add.png" data-index="{{index}}" catchtap="addAmount2"></image>
+                </block>
+              </view>
+            </view>
+          </block>
+          <view class="padding">
+            <button class="cu-btn block line-grey margin-tb-sm lg" bindtap="addMenu"><text class="cuIcon-add"></text>添加</button>
+          </view>
+        </view>
+      </view>
+      <mp-cells>
+        <mp-cell title="餐位数量">
+          <view slot="footer" class="flex justify-center align-center">
+            <image class="count-btn" src="/images/sub.png" catchtap="subSeat"></image>
+            <view class="counter">
+              <text>{{seat_count}}</text>
+            </view>
+            <image class="count-btn" src="/images/add.png" catchtap="addSeat"></image>
+          </view>
+        </mp-cell>
+        <mp-cell title="订单备注" link>
+          <view slot="footer" bindtap="showRemark">
+            <text wx:if="{{order_remark==''}}">口味、偏好等要求</text>
+            <text wx:else>{{order_remark}}</text>
+          </view>
+        </mp-cell>
+      </mp-cells>
+    </mp-form>  
+    <my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">提 交</button>
+    </view>
+  </view>
+</view>
+<mp-dialog title="备注内容" show="{{remark.dialog}}" bindbuttontap="tapRemark" buttons="{{remark.buttons}}" ext-class="my-dialog">
+	<view class="weui-cells weui-cells_after-title">
+		<view class="weui-cell">
+			<view class="weui-cell__bd">
+				<textarea class="weui-textarea text-left" value="{{remark.content}}" maxlength="20" placeholder="请输入备注内容" style="height: 3.3em" bindinput="inputRemark" />
+				<view class="weui-textarea-counter">{{remark.content.length}}/20</view>
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <view class="flex flex-wrap">
+          <view class="padding-xs" wx:for="{{remark.keyword}}" wx:key="index">
+            <view class="cu-tag line-gray" data-value="{{item}}" bindtap="tagRemark">{{item}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</mp-dialog>
+<mp-dialog title="{{vary.current.name}}" show="{{vary.dialog}}" bindbuttontap="tapVary" buttons="{{vary.buttons}}" ext-class="my-dialog">
+	<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form>
+    <mp-cells>
+      <mp-cell title="菜品价格">
+        <input type="digit" value="{{vary.form.price}}" data-field="vary.form.price" maxlength="6" bindinput="inputDigit" class="weui-input" placeholder="请输入菜品价格"/>
+        <view slot="footer">元</view>
+      </mp-cell>
+      <mp-cell title="菜品规格">
+        <input value="{{vary.form.model}}" data-field="vary.form.model" maxlength="10" bindinput="inputChange" class="weui-input" placeholder="请输入菜品规格"/>
+      </mp-cell>
+    </mp-cells>
+  </mp-form>
+</mp-dialog>

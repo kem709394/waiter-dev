@@ -1,0 +1,97 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="基本设置" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+  <view class="page__hd">
+    <scroll-view scroll-x class="bg-white nav margin-bottom-xs">
+      <view class="flex text-center">
+        <view class="cu-item flex-sub {{curTab=='0'?'text-orange cur':''}}" data-key="0" bindtap="tabChange">
+          商户资料
+        </view>
+        <view class="cu-item flex-sub {{curTab=='1'?'text-orange cur':''}}" data-key="1" bindtap="tabChange">
+          经营环境
+        </view>
+        <view class="cu-item flex-sub {{curTab=='2'?'text-orange cur':''}}" data-key="2" bindtap="tabChange">
+          服务条款
+        </view>
+        <view class="cu-item flex-sub {{curTab=='3'?'text-orange cur':''}}" data-key="3" bindtap="tabChange">
+          其他设置
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+	<view class="page__bd">
+		<my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+		<mp-form>
+      <view style="{{curTab!='0'?'display: none;':''}}">
+        <mp-cells>
+          <mp-cell title="店铺头像">
+            <image class="cu-avatar lg" src="{{form.avatar}}" mode="aspectFill" bindtap="avatarChange"></image>
+          </mp-cell>
+          <mp-cell title="店铺名称">
+            <input class="weui-input" value="{{form.name}}" maxlength="10" placeholder="请输入店铺名称" data-field="form.name" bindinput="inputChange"></input>
+          </mp-cell>
+          <mp-cell title="营业状态">
+            <view class="text-right padding-right">{{form.active?'营业中':'已打烊'}}</view>
+            <view slot="footer">
+              <switch checked="{{form.active}}" data-field="form.active" bindchange="switchChange"></switch>
+            </view>
+          </mp-cell>
+          <mp-cell title="营业时间">
+            <input class="weui-input" value="{{form.business_time}}" maxlength="20" placeholder="请输入营业时间" data-field="form.business_time" bindinput="inputChange"></input>
+          </mp-cell>
+          <mp-cell title="电话号码">
+            <input class="weui-input" value="{{form.telephone}}" type="number" maxlength="11" placeholder="请输入联系电话" data-field="form.telephone" bindinput="inputChange"></input>
+          </mp-cell>
+          <mp-cell title="地图定位" link>
+            <view slot="footer" bindtap="chooseLocation">
+              <text wx:if="{{form.location}}" class="text-black">{{form.location.name==''?'没有位置地标':form.location.name}}</text>
+              <text wx:else class="text-gray">请选择定位</text>
+            </view>
+          </mp-cell>
+          <mp-cell>
+            <textarea class="weui-textarea" value="{{form.address}}" maxlength="50" placeholder="请输入详细地址" data-field="form.address" bindinput="inputChange" style="height: 3.3em" />
+            <view class="weui-textarea-counter">{{form.address.length}}/50</view>
+          </mp-cell>
+        </mp-cells>
+      </view>
+      <view style="{{curTab!='1'?'display: none;':''}}">
+        <mp-cells title="环境相册">
+          <mp-cell>
+            <my-album value="{{form.album}}" limit="8" bind:change="albumChange"></my-album>
+          </mp-cell>
+        </mp-cells>
+        <mp-cells title="环境描述">
+          <view class="padding">
+            <my-editor style="height: auto;" value="{{form.intro}}" placeholder="请输入环境描述" data-field="form.intro" bind:change="editorChange"></my-editor>
+          </view>
+        </mp-cells>
+      </view>
+      <view style="{{curTab!='2'?'display: none;':''}}">
+        <mp-cells title="条款内容">
+          <view class="padding">
+            <my-editor style="height: auto;" value="{{form.clause}}" placeholder="请输入条款内容" data-field="form.clause" bind:change="editorChange"></my-editor>
+          </view>
+        </mp-cells>
+      </view>
+      <view style="{{curTab!='3'?'display: none;':''}}">
+        <mp-cells title="推送通知">
+          <mp-cell title="开启推送">
+            <view slot="footer">
+              <switch checked="{{form.notify.active}}" data-field="form.notify.active" bindchange="switchChange"></switch>
+            </view>
+          </mp-cell>
+          <mp-cell wx:if="{{form.notify.active}}" title="订单通知">
+            <input value="{{form.notify.template.order}}" placeholder="请输入订单通知模板" data-field="form.notify.template.order" bindinput="inputChange"></input>
+          </mp-cell>
+          <mp-cell wx:if="{{form.notify.active}}" title="呼叫通知">
+            <input value="{{form.notify.template.invoke}}" placeholder="请输入呼叫通知模板" data-field="form.notify.template.invoke" bindinput="inputChange"></input>
+          </mp-cell>
+        </mp-cells>
+      </view>
+		</mp-form>
+    <my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">保 存</button>
+    </view>
+	</view>
+</view>

@@ -1,0 +1,27 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="意见反馈" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__bd">
+		<my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+		<mp-form id="form" rules="{{rules}}" models="{{models}}">
+			<mp-cells ext-class="margin-top-sm">
+				<mp-cell>
+					<textarea class="weui-textarea" value="{{form.note}}" maxlength="100" placeholder="留下您的宝贵意见或建议，我们将努力改进（不少于五个字）" data-field="form.note" data-rule="models.note" bindinput="inputChange" style="height: 5.3em" />
+					<view class="weui-textarea-counter">{{form.note.length}}/100</view>
+        </mp-cell>
+        <mp-cell prop="mobile">
+					<view slot="icon">
+						<text class="cuIcon-mobile"></text>
+					</view>
+					<view class="padding-left-sm">
+						<input class="weui-input" type="number" value="{{form.mobile}}" maxlength="11" placeholder="请留下手机号码，以便我们回复您" data-field="form.mobile" data-rule="models.mobile" bindinput="inputMobile"></input>
+					</view>
+				</mp-cell>
+      </mp-cells>
+		</mp-form>
+		<my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">提 交</button>
+    </view>
+  </view>
+</view>

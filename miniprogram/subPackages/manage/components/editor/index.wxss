@@ -1,0 +1,28 @@
+@import "./assets/iconfont.wxss"
+
+.iconfont {
+  padding-right: 20rpx;
+  cursor: pointer;
+  font-size: 75rpx;
+}
+
+.toolbar {
+  box-sizing: border-box;
+  border-bottom: 0;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+.ql-container {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 30vh;
+  height: auto;
+  background: #fff;
+  margin-top: 30rpx;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.ql-active {
+  color: #06c;
+}

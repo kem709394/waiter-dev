@@ -1,0 +1,64 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="预订餐桌" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+  <view class="page__bd">
+    <my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+    <mp-form id="form" rules="{{rules}}" models="{{models}}">
+      <mp-cells>
+        <mp-cell title="保留餐桌">
+          <view>
+            <view wx:for="{{form.table}}" wx:key="index" class="cu-tag">{{item.name}}</view>
+          </view>
+        </mp-cell>
+        <mp-cell prop="name" title="客户称呼">
+          <input class="weui-input" value="{{form.contacts.name}}" maxlength="5" placeholder="请输入客户称呼" data-field="form.contacts.name" data-rule="models.name" bindinput="inputChange"></input>
+          <view slot="footer">
+            <text decode>{{form.contacts.gender==1?'先生':'女士'}}&nbsp;</text>
+            <switch class="switch-sex" checked="{{form.contacts.gender==1}}" bindchange="genderChange"></switch>
+          </view>
+        </mp-cell>
+        <mp-cell prop="mobile" title="手机号码">
+          <input class="weui-input" type="number" value="{{form.contacts.mobile}}" maxlength="11" placeholder="输入手机号码" data-field="form.contacts.mobile" data-rule="models.mobile" bindinput="inputChange"></input>
+        </mp-cell>
+        <mp-cell prop="amount" title="使用人数">
+          <input class="weui-input" value="{{form.amount}}" type="number" maxlength="3" placeholder="请输入使用人数" data-field="form.amount" data-rule="models.amount" bindinput="inputNumber"></input>
+          <view slot="footer">人</view>
+        </mp-cell>
+        <mp-cell title="使用日期">
+          <view>{{form.date_string}}</view>
+        </mp-cell>
+        <mp-cell title="使用时间">
+          <view class="weui-flex">
+            <view class="weui-flex__item">
+              <picker mode="time" value="{{form.time_range[0]}}" start="{{time}}" bindchange="time0Change">
+                <view class="picker">
+                  {{form.time_range[0]}}
+                </view>
+              </picker>
+            </view>
+            <view class="weui-flex__item text-center">至</view>
+            <view class="weui-flex__item text-right">
+              <picker mode="time" value="{{form.time_range[1]}}" start="{{form.time_range[0]}}" bindchange="time1Change">
+                <view class="picker">
+                  {{form.time_range[1]}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </mp-cell>
+        <mp-cell title="备注说明">
+          <input class="weui-input" value="{{form.remark}}" maxlength="20" placeholder="输入备注说明" data-field="form.remark" bindinput="inputChange"></input>
+        </mp-cell>
+        <mp-cell wx:if="{{config.book.voucher.active}}" title="打印回执">
+          <view slot="footer">
+            <switch checked="{{print}}" data-field="print" bindchange="switchChange"></switch>
+          </view>
+        </mp-cell>
+      </mp-cells>
+    </mp-form>
+    <my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">确 定</button>
+    </view>
+  </view>
+</view>

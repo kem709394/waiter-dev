@@ -1,0 +1,65 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<mp-cells title="属性设置">
+	<mp-cell title="启用设置">
+		<view slot="footer">
+			<switch checked="{{active}}" bindchange="activeChange"></switch>
+		</view>
+	</mp-cell>
+	<block wx:if="{{active}}">
+		<block wx:for="{{list}}" wx:key="index">
+			<mp-slideview buttons="{{buttons}}" data-index="{{index}}" bindbuttontap="tapItem">
+				<mp-cell>
+					<view slot="title">{{item.name}}</view>
+					<view slot="footer">
+						<view wx:for="{{item.items}}" wx:key="index" class="margin-xs cu-tag sm {{index==0?'bg-grey':''}}">{{item}}</view>
+					</view>
+				</mp-cell>
+			</mp-slideview>
+		</block>
+    <view wx:if="{{list.length==0}}" class="padding text-center">
+      <text class="cuIcon-infofill lg"></text> 暂无属性
+    </view>
+		<mp-cell>
+			<view class="margin dashed">
+				<view class="padding-tb text-center" bindtap="create">
+					<text class="cuIcon-add"></text>添加
+				</view>
+			</view>
+		</mp-cell>
+	</block>
+</mp-cells>
+<mp-dialog title="{{index==null?'添加属性':'修改属性'}}" show="{{dialog}}" bindbuttontap="tapDialog" buttons="{{dialogButtons}}" ext-class="my-dialog">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form id="form" rules="{{rules}}" models="{{form}}">
+    <scroll-view scroll-y style="max-height: 50vh;">
+      <mp-cells>
+        <mp-cell prop="name" title="属性名称">
+          <input value="{{form.name}}" data-field="form.name" maxlength="10" bindinput="inputChange" class="weui-input" placeholder="请输入规格名称"/>
+        </mp-cell>
+        <block wx:for="{{form.items}}" wx:key="index">
+          <mp-cell wx:if="{{index==0}}" title="默认字段">
+            <input value="{{item}}" maxlength="6" class="weui-input" placeholder="请输入字段" data-index="{{index}}" bindinput="inputField"/>
+          </mp-cell>
+          <mp-slideview wx:if="{{index>0}}" buttons="{{fieldButtons}}" data-index="{{index}}" bindbuttontap="tapField">
+            <mp-cell title="可选字段">
+              <input value="{{item}}" maxlength="6" class="weui-input" placeholder="请输入字段" data-index="{{index}}" bindinput="inputField"/>
+            </mp-cell>
+          </mp-slideview>
+        </block>
+        <mp-cell wx:if="{{attribute[form.name]}}">
+          <block wx:for="{{attribute[form.name]}}" wx:key="index">
+            <view wx:if="{{tools.inArray(item, form.items)}}" class="cu-tag line-green">{{item}}</view>
+            <view wx:else class="cu-tag" data-value="{{item}}" bindtap="tagField">{{item}}</view>
+          </block>
+        </mp-cell>
+        <mp-cell>
+          <view class="dashed">
+            <view class="padding-tb text-center" bindtap="addField">
+              <text class="cuIcon-add"></text>增加字段
+            </view>
+          </view>
+        </mp-cell>
+      </mp-cells>
+    </scroll-view>
+  </mp-form>
+</mp-dialog>

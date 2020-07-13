@@ -1,0 +1,26 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="菜品定价" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__bd">
+		<my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+		<mp-form id="form" rules="{{rules}}" models="{{form}}">
+			<mp-cells>
+				<mp-cell prop="price" title="菜品价格">
+					<input class="weui-input" type="digit" value="{{form.price}}" maxlength="6" placeholder="请输入栏目名称" data-field="form.price" bindinput="inputDigit"></input>
+          <view slot="footer">元</view>
+        </mp-cell>
+        <mp-cell prop="model" title="菜品规格">
+					<input class="weui-input" value="{{form.model}}" maxlength="10" placeholder="请输入菜品规格" data-field="form.model" bindinput="inputChange"></input>
+				</mp-cell>
+      </mp-cells>
+		</mp-form>
+    <view wx:if="{{qrcode.ready}}" class="padding-xl text-center">
+      <image src="{{qrcode.data}}" mode="aspectFit" style="height: 300rpx;"></image>
+      <view class="padding-top text-xl text-bold text-red">{{qrcode.price}}元</view>
+    </view>
+		<my-footer></my-footer>
+		<view class="cu-tabbar-height"></view>
+		<view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">生成二维码</button>
+    </view>
+	</view>
+</view>

@@ -1,0 +1,441 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="配送服务" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<scroll-view wx:if="{{curTab=='active'}}" scroll-y scroll-with-animation style="height: calc(100vh - {{customBarHeight}}px - 100rpx);" scroll-top="{{active.top}}">
+  <view class="margin-top-xs">
+    <block wx:for="{{active.list}}" wx:for-item="item1" wx:key="index">
+      <view wx:if="{{order.data[item1.order_id]}}" class="weui-form-preview">
+        <view class="weui-form-preview__hd">
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">
+              <text class="text-bold {{order.data[item1.order_id].openid?'text-black':'text-brown'}}" data-text="{{order.data[item1.order_id].order_sn}}" bindlongtap="copyText">单号：{{order.data[item1.order_id].order_sn}}#{{order.data[item1.order_id].order_no}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="weui-form-preview__bd">
+          <block wx:for="{{order.data[item1.order_id].menu_list}}" wx:for-item="item2" wx:key="index">
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label" style="text-align-last: auto;">
+                <view>
+                  <text>{{item2.name}}</text>
+                  <text wx:if="{{item2.model}}">({{item2.model}})</text>
+                  <view wx:if="{{item2.pack}}" class="cu-tag bg-yellow sm">打包</view>
+                  <view wx:if="{{item2.gift}}" class="cu-tag sm line-green">赠品</view>
+                </view>
+                <block wx:if="{{item2.type=='single'}}">
+                  <view>
+                    <text wx:for="{{item2.option}}" wx:for-item="item3" wx:key="index" decode>{{item3}}&nbsp;</text>
+                  </view>
+                </block>
+                <block wx:if="{{item2.type=='combo'}}">
+                  <view wx:for="{{item2.combo}}" wx:for-item="item3" wx:key="index">
+                    <text>+{{item3.name}}</text>
+                    <text wx:for="{{item3.option}}" wx:for-item="item4" wx:key="index" decode>&nbsp;{{item4}} </text>
+                  </view>
+                </block>
+                <view wx:if="{{item2.remark}}">
+                  <text class="cuIcon-edit"></text>{{item2.remark}}
+                </view>
+              </view>
+              <view class="weui-form-preview__value">
+                <text>x{{item2.amount}}</text>
+              </view>
+            </view>
+          </block>
+          <view wx:if="{{order.data[item1.order_id].tableware!=''}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">餐具份数</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.data[item1.order_id].tableware}}</text>
+            </view>
+          </view>
+          <view wx:if="{{order.data[item1.order_id].remark!=''}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">备注内容</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.data[item1.order_id].remark}}</text>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">合计金额</view>
+            <view class="weui-form-preview__value">
+              <text>¥{{order.data[item1.order_id].total_money/100}}</text>
+            </view>
+          </view>
+          <block wx:if="{{item1.discount_money}}">
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">赠送金额</view>
+              <view class="weui-form-preview__value">
+                <text>¥{{order.data[item1.order_id].discount_money/100}}</text>
+              </view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">应收金额</view>
+              <view class="weui-form-preview__value">
+                <text>¥{{order.data[item1.order_id].payable_money/100}}</text>
+              </view>
+            </view>
+          </block>
+          <view wx:if="{{order.data[item1.order_id].payment_state==2}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">实付金额</view>
+            <view class="weui-form-preview__value">
+              <text>¥{{order.data[item1.order_id].payment_money/100}}</text>
+              <text wx:if="{{order.data[item1.order_id].refund_money}}" class="text-xs text-red">-{{order.data[item1.order_id].refund_money/100}}</text>
+              <view wx:if="{{order.data[item1.order_id].refund_state==1}}" class="cu-tag sm">退款中</view>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">客户电话</view>
+            <view class="weui-form-preview__value">
+              <text decode>{{order.data[item1.order_id].contacts.name}}({{order.data[item1.order_id].contacts.gender==1?'先生':'女士'}})&nbsp;&nbsp;</text>
+              <button class="cu-btn line-green sm" data-value="{{item1.contacts.mobile}}" bindtap="callPhone">
+                <text class="cuIcon-mobilefill"></text>拨打
+              </button>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">配送地址</view>
+            <view class="weui-form-preview__value">
+              <text decode>{{order.data[item1.order_id].address}}&nbsp;&nbsp;</text>
+              <button wx:if="{{order.data[item1.order_id].location}}" class="cu-btn line-green sm margin-top-xs" data-address="{{order.data[item1.order_id].address}}" data-location="{{order.data[item1.order_id].location}}" bindtap="openMap">
+                <text class="cuIcon-locationfill"></text>导航</button>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">配送时间</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.data[item1.order_id].time_string=='0'?'立即配送':order.data[item1.order_id].time_string}}</text>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">领取时间</view>
+            <view class="weui-form-preview__value">
+              <text>{{item1.time}}</text>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">下单时间</view>
+            <view class="weui-form-preview__value">{{order.data[item1.order_id].time}}</view>
+          </view>
+        </view>
+        <view class="weui-form-preview__ft">
+          <view class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active" data-index="{{index}}" bindtap="retreat">退单</view>
+          <view class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" data-index="{{index}}" bindtap="finish">完成</view>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{active.list.length==0}}" class="text-center">
+      <view class="text-xsl padding">
+        <text class="cuIcon-infofill text-grey"></text>
+      </view>
+      <text>暂无订单</text>
+    </view>
+  </view>
+  <my-footer></my-footer>
+</scroll-view>
+<scroll-view wx:if="{{curTab=='receive'}}" scroll-y scroll-with-animation style="height: calc(100vh - {{customBarHeight}}px - 100rpx);">
+  <view class="margin-top-xs">
+    <block wx:if="{{order.detail==null}}">
+      <view class="cu-bar search bg-white">
+        <view class="search-form round">
+          <text class="cuIcon-search"></text>
+          <input value="{{order.order_sn}}" type="number" maxlength="20" placeholder="请输入订单编号" confirm-type="search" data-field="order.order_sn" bindinput="inputChange" bindconfirm="search"></input>
+        </view>
+        <view class="action">
+          <button class="cu-btn bg-green shadow-blur round" bindtap="search">搜索</button>
+        </view>
+      </view>
+      <view class="text-center">
+        <view class="text-xsl padding">
+          <text class="cuIcon-infofill text-grey"></text>
+        </view>
+        <text>找不到订单</text>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="weui-form-preview">
+        <view class="weui-form-preview__hd">
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">
+              <text class="text-bold {{order.detail.openid?'text-black':'text-brown'}}" data-text="{{order.detail.order_sn}}" bindlongtap="copyText">单号：{{order.detail.order_sn}}#{{order.detail.order_no}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="weui-form-preview__bd">
+          <block wx:for="{{order.detail.menu_list}}" wx:key="index">
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label" style="text-align-last: auto;">
+                <view>
+                  <text>{{item.name}}</text>
+                  <text wx:if="{{item.model}}">({{item.model}})</text>
+                  <view wx:if="{{item.gift}}" class="cu-tag sm line-green">赠品</view>
+                </view>
+                <block wx:if="{{item.type=='single'}}">
+                  <view>
+                    <text wx:for="{{item.option}}" wx:key="index" decode>{{item}}&nbsp;</text>
+                  </view>
+                </block>
+                <block wx:if="{{item.type=='combo'}}">
+                  <view wx:for="{{item.combo}}" wx:key="index">
+                    <text>+{{item.name}}</text>
+                    <text wx:for="{{item.option}}" wx:key="index" decode>&nbsp;{{item}} </text>
+                  </view>
+                </block>
+                <view wx:if="{{item.remark}}">
+                  <text class="cuIcon-edit"></text>{{item.remark}}
+                </view>
+              </view>
+              <view class="weui-form-preview__value">
+                <text style="{{item.gift?'text-decoration:line-through;':''}}">¥{{item.price/100}}</text>
+                <text decode>&nbsp;&nbsp;x{{item.amount}}</text>
+              </view>
+            </view>
+          </block>
+          <view wx:if="{{order.detail.tableware!=''}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">餐具份数</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.detail.tableware}}</text>
+            </view>
+          </view>
+          <view wx:if="{{order.detail.remark!=''}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">备注内容</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.detail.remark}}</text>
+            </view>
+          </view>
+          <view wx:if="{{order.detail.pack_money}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">包装费</view>
+            <view class="weui-form-preview__value">
+              <text>¥{{order.detail.pack_money/100}}</text>
+            </view>
+          </view>
+          <view wx:if="{{order.detail.delivery_money}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">配送费</view>
+            <view class="weui-form-preview__value">
+              <text>¥{{order.detail.delivery_money/100}}</text>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">合计金额</view>
+            <view class="weui-form-preview__value">
+              <text>¥{{order.detail.total_money/100}}</text>
+            </view>
+          </view>
+          <block wx:if="{{order.detail.discount_money}}">
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">赠送金额</view>
+              <view class="weui-form-preview__value">
+                <text>¥{{order.detail.discount_money/100}}</text>
+              </view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">应收金额</view>
+              <view class="weui-form-preview__value">
+                <text>¥{{order.detail.payable_money/100}}</text>
+              </view>
+            </view>
+          </block>
+          <view wx:if="{{order.detail.payment_state==2}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">实付金额</view>
+            <view class="weui-form-preview__value">
+              <text>¥{{order.detail.payment_money/100}}</text>
+              <text wx:if="{{order.detail.refund_money}}" class="text-xs text-red">-{{order.detail.refund_money/100}}</text>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">配送地址</view>
+            <view class="weui-form-preview__value">
+              <text decode>{{order.detail.address}}&nbsp;&nbsp;</text>
+              <button wx:if="{{order.detail.location}}" class="cu-btn line-green sm" data-address="{{order.detail.address}}" data-location="{{order.detail.location}}" bindtap="openMap">
+                <text class="cuIcon-locationfill"></text>导航</button>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">配送时间</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.detail.time_string=='0'?'立即配送':order.detail.time_string}}</text>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">下单时间</view>
+            <view class="weui-form-preview__value">{{order.detail.time}}</view>
+          </view>
+        </view>
+        <view class="weui-form-preview__ft">
+          <view class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" bindtap="receive">接 单</view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <my-footer></my-footer>
+</scroll-view>
+<scroll-view wx:if="{{curTab=='record'}}" scroll-y scroll-with-animation style="height: calc(100vh - {{customBarHeight}}px - 100rpx);">
+  <view class="bg-white nav text-center solids-bottom">
+    <view class="cu-item">
+      <text wx:if="{{record.grain==''}}">全部订单</text>
+      <text wx:if="{{record.grain=='day'}}">{{record.date}}</text>
+      <text wx:if="{{record.grain=='month'}}">月份({{record.date}})</text>
+      <text wx:if="{{record.grain=='year'}}">年份({{record.date}})</text>
+    </view>
+    <view style="position: absolute;top: 10px;right: 20px;font-size: 22px;" bindtap="filter">
+      <text class="cuIcon-calendar"></text>
+    </view>
+  </view>
+  <scroll-view scroll-y scroll-with-animation style="height: calc(100vh - {{customBarHeight}}px - 200rpx);" scroll-top="{{record.top}}" refresher-enabled refresher-triggered="{{record.triggered}}" bindrefresherrefresh="refreshRecord" bindscrolltolower="loadRecord">
+    <block wx:for="{{record.list}}" wx:for-item="item1" wx:key="index">
+      <view wx:if="{{order.data[item1.order_id]}}" class="weui-form-preview">
+        <view class="weui-form-preview__hd">
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">
+              <text class="text-bold {{order.data[item1.order_id].openid?'text-black':'text-brown'}}" data-text="{{order.data[item1.order_id].order_sn}}" bindlongtap="copyText">单号：{{order.data[item1.order_id].order_sn}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="weui-form-preview__bd">
+          <block wx:for="{{order.data[item1.order_id].menu_list}}" wx:for-item="item2" wx:key="index">
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label" style="text-align-last: auto;">
+                <view>
+                  <text>{{item2.name}}</text>
+                  <text wx:if="{{item2.model}}">({{item2.model}})</text>
+                  <view wx:if="{{item2.pack}}" class="cu-tag bg-yellow sm">打包</view>
+                  <view wx:if="{{item2.gift}}" class="cu-tag sm line-green">赠品</view>
+                </view>
+                <block wx:if="{{item2.type=='single'}}">
+                  <view>
+                    <text wx:for="{{item2.option}}" wx:for-item="item3" wx:key="index" decode>{{item3}}&nbsp;</text>
+                  </view>
+                </block>
+                <block wx:if="{{item2.type=='combo'}}">
+                  <view wx:for="{{item2.combo}}" wx:for-item="item3" wx:key="index">
+                    <text>+{{item3.name}}</text>
+                    <text wx:for="{{item3.option}}" wx:for-item="item4" wx:key="index" decode>&nbsp;{{item4}} </text>
+                  </view>
+                </block>
+                <view wx:if="{{item2.remark}}">
+                  <text class="cuIcon-edit"></text>{{item2.remark}}
+                </view>
+              </view>
+              <view class="weui-form-preview__value">
+                <text>x{{item2.amount}}</text>
+              </view>
+            </view>
+          </block>
+          <view wx:if="{{order.data[item1.order_id].tableware!=''}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">餐具份数</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.data[item1.order_id].tableware}}</text>
+            </view>
+          </view>
+          <view wx:if="{{order.data[item1.order_id].remark!=''}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">备注内容</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.data[item1.order_id].remark}}</text>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">合计金额</view>
+            <view class="weui-form-preview__value">
+              <text>¥{{order.data[item1.order_id].total_money/100}}</text>
+            </view>
+          </view>
+          <block wx:if="{{item1.discount_money}}">
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">赠送金额</view>
+              <view class="weui-form-preview__value">
+                <text>¥{{order.data[item1.order_id].discount_money/100}}</text>
+              </view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">应收金额</view>
+              <view class="weui-form-preview__value">
+                <text>¥{{order.data[item1.order_id].payable_money/100}}</text>
+              </view>
+            </view>
+          </block>
+          <view wx:if="{{order.data[item1.order_id].payment_state==2}}" class="weui-form-preview__item">
+            <view class="weui-form-preview__label">实付金额</view>
+            <view class="weui-form-preview__value">
+              <text>¥{{order.data[item1.order_id].payment_money/100}}</text>
+              <text wx:if="{{order.data[item1.order_id].refund_money}}" class="text-xs text-red">-{{order.data[item1.order_id].refund_money/100}}</text>
+              <view wx:if="{{order.data[item1.order_id].refund_state==1}}" class="cu-tag sm">退款中</view>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">配送地址</view>
+            <view class="weui-form-preview__value">
+              <text>{{order.data[item1.order_id].address}}</text>
+            </view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">完成时间</view>
+            <view class="weui-form-preview__value">
+              <text>{{item1.time}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{record.list.length==0}}" class="text-center">
+      <view class="text-xsl padding">
+        <text class="cuIcon-infofill text-grey"></text>
+      </view>
+      <text>暂无订单</text>
+    </view>
+    <my-footer></my-footer>
+  </scroll-view>
+</scroll-view>
+<view class="cu-bar tabbar bg-white foot">
+  <view class="action {{curTab=='active'?'text-green':''}}" data-key="active" bindtap="tabChange">
+    <view class="cuIcon-activity">
+      <view class="cu-tag badge">{{active.list.length}}</view>
+    </view>
+    当前
+  </view>
+  <view class="action {{curTab=='record'?'text-green':''}}" data-key="record" bindtap="tabChange">
+    <view class="cuIcon-info"></view>
+    记录
+  </view>
+  <view class="action add-action {{curTab=='receive'?'text-green':''}}">
+    <button class="cu-btn cuIcon-qrcode shadow {{curTab=='receive'?'bg-green':''}}" data-key="receive" bindtap="tabChange"></button>
+    取件
+  </view>
+  <view class="action">
+    <view class="cuIcon-notification">
+      <view class="cu-tag badge">{{subscribe}}</view>
+    </view>
+    通知
+  </view>
+  <view class="action" bindtap="subscribe">
+    <view class="cuIcon-subscription"></view>
+    订阅
+  </view>
+</view>
+<mp-dialog title="退回订单" show="{{retreat.dialog}}" bindbuttontap="tapRetreat" buttons="{{retreat.buttons}}" ext-class="my-dialog">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form id="form" rules="{{retreat.rules}}" models="{{retreat.form}}">
+    <mp-cells>
+      <mp-cell prop="note">
+				<textarea class="weui-textarea text-left" value="{{retreat.form.note}}" maxlength="50" placeholder="请输入备注说明" data-field="retreat.form.note" bindinput="inputChange" style="height: 3.3em" />
+				<view class="weui-textarea-counter">{{retreat.form.note.length}}/50</view>
+      </mp-cell>
+    </mp-cells>
+  </mp-form>
+</mp-dialog>
+<mp-dialog title="筛选订单" show="{{filter.dialog}}" bindbuttontap="tapFilter" buttons="{{filter.buttons}}" ext-class="my-dialog">
+  <mp-form>
+    <mp-cells>
+      <mp-cell title="日期范围">
+        <view class="cu-tag {{filter.grain==''?'bg-green':''}}" data-key="" bindtap="grainChange">全部</view>
+        <view class="cu-tag {{filter.grain=='year'?'bg-green':''}}" data-key="year" bindtap="grainChange">按年</view>
+        <view class="cu-tag {{filter.grain=='month'?'bg-green':''}}" data-key="month" bindtap="grainChange">按月</view>
+        <view class="cu-tag {{filter.grain=='day'?'bg-green':''}}" data-key="day" bindtap="grainChange">按日</view>
+      </mp-cell>
+      <mp-cell wx:if="{{filter.grain!=''}}" title="接单日期" link>
+        <view slot="footer">
+          <picker mode="date" value="{{filter.date}}" data-field="filter.date" fields="{{filter.grain}}" end="{{filter.maxDay}}" bindchange="dateChange">
+            <view class="picker">
+              {{filter.date}}
+            </view>
+          </picker>
+        </view>
+      </mp-cell>
+    </mp-cells>
+  </mp-form>
+</mp-dialog>

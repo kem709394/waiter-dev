@@ -1,0 +1,39 @@
+<drawer title="{{title}}" refresher="{{true}}" bind:refresh="init" bind:lower="load">
+  <view slot="header" id="header" class="cu-bar search bg-white">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input value="{{search.temp}}" type="text" maxlength="6" placeholder="搜索用户昵称" confirm-type="search" data-field="search.temp" bindinput="inputChange" bindconfirm="search"></input>
+    </view>
+    <view class="action">
+      <button class="cu-btn bg-green shadow-blur round" bindtap="search">搜索</button>
+    </view>
+  </view>
+  <view slot="content" class="margin-top-xs">
+    <view wx:if="{{total>0}}" class="weui-panel weui-panel_access">
+      <view class="weui-panel__bd">
+        <block wx:for="{{list}}" wx:key="index">
+          <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" data-index="{{index}}" bindtap="detail">
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <image class="weui-media-box__thumb" src="{{item.avatar_url}}" lazy-load/>
+            </view>
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view class="weui-media-box__title">{{item.nick_name}}</view>
+              <view wx:if="{{item.mobile}}" class="weui-media-box__desc">
+                <text class="cuIcon-mobile"></text>{{item.mobile}}
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+    <view wx:else class="text-center">
+      <view class="text-xsl padding">
+        <text class="cuIcon-infofill text-grey"></text>
+      </view>
+      <text>暂无数据</text>
+    </view>
+    <view wx:if="{{loading}}" class="cu-load loading"></view>
+    <view wx:if="{{finish}}" class="cu-load over"></view>
+    <my-footer></my-footer>
+  </view>
+</drawer>

@@ -1,0 +1,38 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<navigation-bar show="{{true}}" animated="{{true}}" title="排队设置" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__bd">
+		<my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+		<mp-form id="form" rules="{{rules}}" models="{{models}}">
+      <mp-cells>
+        <mp-cell title="启用功能">
+          <view slot="footer">
+            <switch checked="{{form.active}}" data-field="form.active" bindchange="switchChange"></switch>
+          </view>
+        </mp-cell>
+        <mp-cells>
+					<mp-cell title="服务范围">
+            <input class="weui-input" value="{{form.use_distance}}" type="number" maxlength="6" placeholder="请输入服务范围" data-field="form.use_distance" bindinput="inputNumber"></input>
+            <view slot="footer">米</view>
+					</mp-cell>
+        </mp-cells>
+      </mp-cells>
+      <mp-cells title="推送通知">
+        <mp-cell title="开启推送">
+          <view slot="footer">
+            <switch checked="{{form.notify.active}}" data-field="form.notify.active" bindchange="switchChange"></switch>
+          </view>
+        </mp-cell>
+        <mp-cell title="排队提醒">
+          <input class="weui-input" value="{{form.notify.template.remind}}" placeholder="请输入排队提醒通知模板" data-field="form.notify.template.remind" bindinput="inputChange"></input>
+        </mp-cell>
+      </mp-cells>
+      <my-config-voucher title="打印凭证" value="{{form.voucher}}" bind:change="voucherChange"></my-config-voucher>
+		</mp-form>
+		<my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">保 存</button>
+    </view>
+	</view>
+</view>

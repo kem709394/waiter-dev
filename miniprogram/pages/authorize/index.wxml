@@ -1,0 +1,22 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="微信授权" back="{{true}}" color="white" background="var(--gradualBlue)" bind:back="refuse"></navigation-bar>
+<view style="padding-top:calc(100vh / 4);">
+	<view class="text-center">
+		<view class="flex justify-center align-center">
+			<open-data type="userAvatarUrl"></open-data>
+		</view>
+    <view class="padding">
+			<open-data type="userNickName" lang="zh_CN"></open-data>
+		</view>
+		<view class="padding-top-xl text-center text-yellow text-sm">
+			<text>提示：需要获取您的头像和昵称才能进行下一步操作。</text>
+		</view>
+	</view>
+	<view class="padding">
+		<view class="cu-bar btn-group">
+			<button class="cu-btn bg-grey lg" bindtap="refuse">拒绝</button>
+			<button wx:if="{{forbid}}" class="cu-btn bg-green lg" bindtap="setting">同意</button>
+			<button wx:else class="cu-btn bg-green lg" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="getInfo">同意</button>
+		</view>
+	</view>
+</view>
+<my-footer></my-footer>

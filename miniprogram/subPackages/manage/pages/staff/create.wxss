@@ -1,0 +1,25 @@
+.privilege-list__item {
+  padding: 10px;
+  background-color: var(--weui-BG-2);
+  border-radius: 2px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.privilege-list__item-hd {
+  -webkit-transition: opacity .3s;
+  transition: opacity .3s;
+}
+
+.privilege-list__item-hd_show {
+  opacity: .4;
+}
+
+.privilege-list__item-bd {
+  height: 0;
+  overflow: hidden;
+}
+
+.privilege-list__item-bd_show {
+  height: auto;
+}

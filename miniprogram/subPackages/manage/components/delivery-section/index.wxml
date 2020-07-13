@@ -1,0 +1,62 @@
+<block wx:for="{{list}}" wx:key="index">
+	<mp-slideview buttons="{{buttons}}" data-index="{{index}}" bindbuttontap="tapItem">
+		<mp-cell>
+			<view class="weui-flex">
+        <view class="weui-flex__item">
+          <view>{{item.range[0]}}~{{item.range[1]}}米</view>
+          <view class="text-sm">预计{{item.minute}}分钟</view>
+        </view>
+        <view class="weui-flex__item">
+          <view>最低消费{{item.starting_money/100}}元</view>
+          <view class="text-sm">配送费{{item.shipping_fee/100}}元</view>
+        </view>
+    	</view>
+			<view slot="footer">
+        <text class="cuIcon-roundleftfill-copy lg"></text>
+      </view>
+		</mp-cell>
+	</mp-slideview>
+</block>
+<view wx:if="{{list.length==0}}" class="padding text-center">
+	<text class="cuIcon-infofill lg"></text> 暂无配送范围
+</view>
+<mp-cell>
+	<view class="margin dashed">
+		<view class="padding-tb text-center" bindtap="create">
+			<text class="cuIcon-add"></text>添加
+		</view>
+	</view>
+</mp-cell>
+<mp-dialog title="{{index?'修改范围':'添加范围'}}" show="{{dialog}}" bindbuttontap="tapDialog" buttons="{{dialogButtons}}" ext-class="my-dialog">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form>
+    <scroll-view scroll-y style="max-height: 50vh;">
+      <mp-cells>
+        <mp-cell title="配送距离">
+          <view class="weui-flex">
+            <view class="weui-flex__item">
+              <input value="{{form.range[0]}}" type="number" data-field="form.range[0]" maxlength="4" bindinput="inputNumber" class="weui-input"/>
+            </view>
+            <view>至</view>
+            <view class="weui-flex__item">
+              <input value="{{form.range[1]}}" type="number" data-field="form.range[1]" maxlength="4" bindinput="inputNumber" class="weui-input"/>
+            </view>
+            <view slot="footer">米</view>
+          </view>
+        </mp-cell>
+        <mp-cell title="预计时间">
+          <input value="{{form.minute}}" type="number" data-field="form.minute" maxlength="10" bindinput="inputNumber" class="weui-input" placeholder="请输入预计时间"/>
+          <view slot="footer">分钟</view>
+        </mp-cell>
+        <mp-cell title="最低消费">
+          <input value="{{form.starting_money}}" type="digit" data-field="form.starting_money" maxlength="10" bindinput="inputDigit" class="weui-input" placeholder="请输入最低消费"/>
+          <view slot="footer">元</view>
+        </mp-cell>
+        <mp-cell title="配送费">
+          <input value="{{form.shipping_fee}}" type="digit" data-field="form.shipping_fee" maxlength="10" bindinput="inputDigit" class="weui-input" placeholder="请输入配送费"/>
+          <view slot="footer">元</view>
+        </mp-cell>
+      </mp-cells>
+    </scroll-view>
+  </mp-form>
+</mp-dialog>

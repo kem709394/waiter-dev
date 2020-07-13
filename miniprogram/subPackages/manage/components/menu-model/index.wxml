@@ -1,0 +1,45 @@
+<mp-cells title="规格设置">
+	<mp-cell title="启用设置">
+		<view slot="footer">
+			<switch checked="{{active}}" bindchange="activeChange"></switch>
+		</view>
+	</mp-cell>
+	<block wx:if="{{active}}">
+		<block wx:for="{{list}}" wx:key="index">
+			<mp-slideview buttons="{{buttons}}" data-index="{{index}}" bindbuttontap="tapItem">
+				<mp-cell>
+					<view slot="title">
+						<text decode>{{item.name}}&nbsp;</text>
+						<view wx:if="{{index==0}}" class="cu-tag sm">默认</view>
+					</view>
+					<view slot="footer">
+						<text class="cu-tag">加价</text>
+						<text class="text-red text-bold" decode>&nbsp;&nbsp;{{item.raise/100}}</text> 元
+					</view>
+				</mp-cell>
+			</mp-slideview>
+		</block>
+		<mp-cell>
+			<view class="margin dashed">
+				<view class="padding-tb text-center" bindtap="create">
+					<text class="cuIcon-add"></text>添加
+				</view>
+			</view>
+		</mp-cell>
+	</block>
+</mp-cells>
+<mp-dialog title="{{index==null?'添加规格':'修改规格'}}" show="{{dialog}}" bindbuttontap="tapDialog" buttons="{{dialogButtons}}" ext-class="my-dialog">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form id="form" rules="{{rules}}" models="{{form}}">
+    <mp-cells>
+      <mp-cell prop="name" title="规格名称">
+        <input value="{{form.name}}" data-field="form.name" maxlength="10" bindinput="inputChange" class="weui-input" placeholder="请输入规格名称"/>
+      </mp-cell>
+			<mp-cell wx:if="{{index!=0}}" prop="raise" title="增加价格">
+        <input value="{{form.raise}}" type="digit" data-field="form.raise" maxlength="6" bindinput="inputDigit" class="weui-input" placeholder="请输入增加价格"/>
+				<view slot="footer">元</view>
+			</mp-cell>      
+    </mp-cells>
+  </mp-form>
+</mp-dialog>
+

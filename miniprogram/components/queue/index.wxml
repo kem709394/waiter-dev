@@ -1,0 +1,58 @@
+<wxs src="../../utils/tools.wxs" module="tools" />
+<block wx:if="{{show}}">
+  <view class="cu-bar bg-white solid-bottom margin-top-xs">
+    <view class="action">
+      <text class="cuIcon-sort text-green"></text> 排队取号
+    </view>
+    <view class="action" wx:if="{{granted&&data==null}}">
+      <button class="cu-btn block bg-green margin-tb-sm" bindtap="create">取号</button>
+    </view>
+  </view>
+  <block wx:if="{{!granted}}">
+    <view class="padding bg-white">
+      <text class="text-bold" decode>若要取号排队，请您先授权登录&nbsp;&nbsp;&nbsp;</text>
+      <button class="cu-btn line-yellow" bindtap="login">登录</button>
+    </view>
+  </block>
+  <block wx:else>
+    <view wx:if="{{data}}" class="bg-white">
+      <view class="padding text-center text-xl text-bold">您的号码：{{data.number}}</view>
+      <view class="padding flex solid-top">
+        <view class="flex-twice">
+          <text class="cuIcon-activity"></text>
+          <text decode>&nbsp;前面排队：{{index}}人</text>
+        </view>
+        <view class="flex-twice text-right">
+          <view wx:if="{{data.progress=='wait'}}" class="cu-tag line-yellow">
+            <text class="cuIcon-time"></text>
+            <text decode>&nbsp;{{tools.differTime(data.time,current)}}</text>
+          </view>
+          <view wx:if="{{data.progress=='ready'}}" class="cu-tag bg-green text-bold">就 绪</view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="bg-white">
+      <view class="padding">
+        <view class="text-bold">为了节省您的时间，请先取号排队！</view>
+        <view class="text-yellow text-sm">取号服务范围{{tools.showMeter(config.queue.use_distance)}}</view>
+      </view>
+      <view class="padding solid-top">
+        <text class="cuIcon-activity"></text>
+        <text decode>&nbsp;当前排队：{{total}}人</text>
+      </view>
+    </view>
+  </block>
+</block>
+<mp-dialog title="取号排队" show="{{dialog}}" bindbuttontap="tapDialog" buttons="{{buttons}}" ext-class="my-dialog">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form id="form" rules="{{rules}}" models="{{form}}">
+    <mp-cells>
+      <mp-cell title="使用人数" prop="amount">
+        <input type="number" value="{{form.amount}}" data-field="form.amount" bindinput="inputChange" class="weui-input" placeholder="请输入使用人数"/>
+      </mp-cell> 
+      <mp-cell title="备注说明" prop="note">
+        <input value="{{form.note}}" data-field="form.note" bindinput="inputNumber" class="weui-input" placeholder="请输入备注说明"/>
+      </mp-cell>     
+    </mp-cells>
+  </mp-form>
+</mp-dialog>

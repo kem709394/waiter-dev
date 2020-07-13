@@ -1,0 +1,40 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="我的地址" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<scroll-view scroll-y scroll-with-animation>
+		<view wx:if="{{list.length>0}}" class="margin-top-xs">
+			<mp-cells>
+				<block wx:for="{{list}}" wx:key="index">
+					<mp-slideview buttons="{{buttons}}" data-index="{{index}}" bindbuttontap="tapSlide">
+						<mp-cell>
+							<view slot="icon">
+								<view class="cu-tag {{item.is_default?'line-green':''}}" data-index="{{index}}" catchtap="setDefault">首选</view>
+							</view>
+							<view class="text-left margin-left text-df" style="width: 80vw;" data-index="{{index}}" catchtap="detail">
+								<view class="text-cut">
+									<text decode>{{item.location.name}}&nbsp;{{item.content}}</text>
+								</view>
+								<view class="text-grey">
+									<text decode>{{item.contacts.name}}({{item.contacts.gender=='1'?'先生':'女士'}})&nbsp;&nbsp;{{item.contacts.mobile}}</text>
+								</view>
+							</view>
+						</mp-cell>
+					</mp-slideview>
+				</block>
+			</mp-cells>
+			<view class="cu-load over"></view>
+		</view>
+		<view wx:else class="text-center">
+			<view class="text-xsl padding">
+				<text class="cuIcon-infofill text-grey"></text>
+			</view>
+			<text>没有地址</text>
+		</view>
+		<my-footer></my-footer>
+	</scroll-view>
+	<block wx:if="{{list.length<20}}">
+		<view class="cu-tabbar-height"></view>
+		<view class="cu-bar tabbar border foot bg-gradual-blue" bindtap="create">
+			<view class="submit text-xl">新增地址</view>
+		</view>
+	</block>
+</view>

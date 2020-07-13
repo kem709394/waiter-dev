@@ -1,0 +1,20 @@
+<view bindtap="close" class="weui-mask {{!show ? 'weui-mask_hidden' : '' }}"></view>
+<view wx:if="{{show}}" class="weui-dialog__wrp" bindtap="close">
+	<view class="weui-dialog" catchtap="stopEvent">
+		<view class="weui-dialog__hd">
+			<view class="weui-dialog__title">{{title}}</view>
+		</view>
+		<view class="weui-dialog__bd">
+      <view class="padding-top grid">
+				<block wx:for="{{array}}" wx:key="index">
+					<view class="solid flex align-center justify-center {{active?'bg-gray line':''}}" style="width:{{width}}px;height:{{height}}px;" bindtap="activeInput">
+						<text wx:if="{{active&&value.length==index}}" class="box-focus text-yellow">|</text>
+						<text wx:else>{{array[index]}}</text>
+					</view>
+				</block>
+      </view>
+			<input style="height: 0;width: 0;" value="{{value}}" focus="{{active}}" maxlength="{{array.length}}" type="number" bindinput="inputChange" />
+			<view class="text-sm text-red">{{error}}</view>
+		</view>
+	</view>
+</view>

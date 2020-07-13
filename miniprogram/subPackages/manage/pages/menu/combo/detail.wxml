@@ -1,0 +1,80 @@
+<wxs src="../../../../../utils/tools.wxs" module="tools" />
+<navigation-bar show="{{true}}" animated="{{true}}" title="套餐详情" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__bd">
+		<mp-form>
+      <view class="bg-white padding">
+        <view class="text-center">
+          <image src="{{detail.cover}}" mode="aspectFit" style="height: 300rpx;"></image>
+        </view>
+      </view>
+      <mp-cells>
+        <mp-cell title="套餐名称">
+          <view>{{detail.name}}</view>
+        </mp-cell>
+        <mp-cell title="备注名称">
+          <view>{{detail.alias}}</view>
+        </mp-cell>
+        <mp-cell wx:if="{{tools.inArray('inside', detail.scope)}}" title="堂食栏目">
+          <view>
+            <view wx:for="{{detail.column.inside}}" wx:key="index" class="margin-xs cu-tag">{{tools.valueToName(column, item)}}</view>
+          </view>
+        </mp-cell>
+        <mp-cell wx:if="{{tools.inArray('outside', detail.scope)}}" title="外卖栏目">
+          <view>
+            <view wx:for="{{detail.column.outside}}" wx:key="index" class="margin-xs cu-tag">{{tools.valueToName(column, item)}}</view>
+          </view>
+        </mp-cell>
+        <mp-cell title="套餐描述">
+          <view>
+            <text>{{detail.intro}}</text>
+          </view>
+        </mp-cell>
+        <mp-cell title="销售价格">
+          <view>{{detail.price/100}}元</view>
+        </mp-cell>
+        <mp-cell wx:if="{{detail.price2}}" title="折前价格">
+          <view>{{detail.price2/100}}元</view>
+        </mp-cell>
+        <mp-cell title="包装费用">
+          <view>
+            <view wx:if="{{detail.pack.money==0}}">免费</view>
+            <view wx:else>
+              <text wx:if="{{detail.pack.mode=='every'}}">每份加收{{detail.pack.money/100}}元</text>
+              <text wx:else>加收{{detail.pack.money/100}}元,不限数量</text>
+            </view>
+          </view>
+        </mp-cell>
+        <block wx:for="{{detail.combo}}" wx:key="index">
+          <mp-cell>
+            <view slot="title" class="weui-cell__hd">
+              <view class="weui-label">{{item.name}}</view>
+              <view class="text-sm">{{item.list.length}}选{{item.amount}}</view>
+            </view>
+            <view>
+              <view class="cu-tag margin-xs" wx:for="{{item.list}}" wx:key="index">{{menu[item].name}}</view>
+            </view>
+          </mp-cell>
+        </block>
+        <mp-cell title="销售数量">
+          <view>{{detail.statistics.sales}}份</view>
+        </mp-cell>
+        <mp-cell wx:if="{{detail.sku.active}}" title="剩余数量">
+          <view>{{detail.sku.total-detail.sku.count}}份</view>
+        </mp-cell>
+        <mp-cell title="是否公开">
+          <view>{{detail.visible?'公开':'隐藏'}}</view>
+        </mp-cell>
+        <mp-cell title="优先级别">
+          <view>{{detail.priority}}</view>
+        </mp-cell>
+        <mp-cell title="备注说明">
+          <view>
+            <text>{{detail.note}}</text>
+          </view>
+        </mp-cell>
+      </mp-cells>
+    </mp-form>
+    <my-footer></my-footer>
+  </view>
+</view>

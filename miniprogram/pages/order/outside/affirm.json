@@ -1,0 +1,15 @@
+{
+  "usingComponents": {
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-form": "weui-miniprogram/form/form",
+    "mp-dialog": "weui-miniprogram/dialog/dialog",
+    "my-toptips": "/components/toptips/index",
+    "order-delivery-time": "../../../components/order-delivery-time/index",
+    "order-takeaway-time": "../../../components/order-takeaway-time/index",
+    "address-choose": "../../../components/address-choose/index",
+    "menu-combo-choose": "../../../components/menu-combo-choose/index",
+    "menu-order-list": "../../../components/menu-order-list/index",
+    "my-footer": "/components/footer/index"
+  }
+}

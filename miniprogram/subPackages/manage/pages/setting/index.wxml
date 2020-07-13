@@ -1,0 +1,44 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<drawer title="{{title}}">
+  <view slot="content">
+    <view class="cu-list grid col-3 margin-top-xs">
+      <view wx:if="{{tools.inArray('setting-base', privilege)}}" class="cu-item" data-url="base" bindtap="openPage">
+        <view class="cuIcon-news"></view>
+        <text>基本</text>
+      </view>
+      <view wx:if="{{tools.inArray('setting-password', privilege)}}" class="cu-item" data-url="password" bindtap="openPage">
+        <view class="cuIcon-lock"></view>
+        <text>密码</text>
+      </view>
+      <view wx:if="{{tools.inArray('setting-home', privilege)}}" class="cu-item" data-url="home" bindtap="openPage">
+        <view class="cuIcon-home"></view>
+        <text>首页</text>
+      </view>
+      <view wx:if="{{tools.inArray('setting-inside', privilege)}}" class="cu-item" data-url="inside" bindtap="openPage">
+        <view class="cuIcon-form"></view>
+        <text>点餐</text>
+      </view>
+      <view wx:if="{{tools.inArray('setting-outside', privilege)}}" class="cu-item" data-url="outside" bindtap="openPage">
+        <view class="cuIcon-present"></view>
+        <text>外卖</text>
+      </view>
+      <view wx:if="{{tools.inArray('setting-book', privilege)}}" class="cu-item" data-url="book" bindtap="openPage">
+        <view class="cuIcon-activity"></view>
+        <text>订桌</text>
+      </view>
+      <view wx:if="{{tools.inArray('setting-queue', privilege)}}" class="cu-item" data-url="queue" bindtap="openPage">
+        <view class="cuIcon-sort"></view>
+        <text>排队</text>
+      </view>
+      <view wx:if="{{tools.inArray('setting-invoke', privilege)}}" class="cu-item" data-url="invoke" bindtap="openPage">
+        <view class="cuIcon-notification"></view>
+        <text>呼叫</text>
+      </view>
+      <view wx:if="{{tools.inArray('setting-attribute', privilege)}}" class="cu-item" data-url="attribute" bindtap="openPage">
+        <view class="cuIcon-info"></view>
+        <text>属性</text>
+      </view>
+    </view>
+    <my-footer></my-footer>
+  </view>
+</drawer>

@@ -1,0 +1,117 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<navigation-bar show="{{true}}" animated="{{true}}" title="点餐设置" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__hd">
+		<scroll-view scroll-x class="bg-white nav margin-bottom-xs">
+			<view class="flex text-center">
+				<view class="cu-item flex-sub {{curTab=='0'?'text-orange cur':''}}" data-key="0" bindtap="tabChange">
+					基础
+				</view>
+				<view class="cu-item flex-sub {{curTab=='1'?'text-orange cur':''}}" data-key="1" bindtap="tabChange">
+					现场
+				</view>
+				<view class="cu-item flex-sub {{curTab=='2'?'text-orange cur':''}}" data-key="2" bindtap="tabChange">
+					预定
+				</view>
+			</view>
+		</scroll-view>
+	</view>
+	<view class="page__bd">
+		<my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+		<mp-form id="form" rules="{{rules}}" models="{{models}}">
+			<block wx:if="{{curTab=='0'}}">
+        <mp-cells title="轮播图片">
+          <mp-cell>
+            <my-album value="{{form.swiper}}" limit="4" bind:change="albumChange"></my-album>
+          </mp-cell>
+        </mp-cells>
+				<mp-cells title="餐位设置">
+					<mp-cell title="默认餐位">
+						<input class="weui-input" value="{{form.seat.count}}" type="number" placeholder="请输入默认餐位" maxlength="2" data-field="form.seat.count" bindinput="inputNumber"></input>
+            <view slot="footer">位</view>
+					</mp-cell>
+					<mp-cell title="餐位费用">
+						<input class="weui-input" value="{{form.seat.price}}" type="digit" maxlength="4" placeholder="请输入餐位费用" data-field="form.seat.price" bindinput="inputDigit"></input>
+            <view slot="footer">元</view>
+					</mp-cell>
+        </mp-cells>
+        <mp-cells title="备注字段" footer="字段之间使用空格分开">
+					<mp-cell>
+						<textarea class="weui-textarea" value="{{form.remark_items}}" maxlength="200" placeholder="请输入备注字段" data-field="form.remark_items" bindinput="inputChange" style="height: 3.3em" />
+						<view class="weui-textarea-counter">{{form.remark_items.length}}/50</view>
+          </mp-cell>
+        </mp-cells>
+        <mp-cells title="推送通知">
+          <mp-cell title="开启推送">
+            <view slot="footer">
+              <switch checked="{{form.notify.active}}" data-field="form.notify.active" bindchange="switchChange"></switch>
+            </view>
+          </mp-cell>
+					<mp-cell title="下单成功">
+						<input class="weui-input" value="{{form.notify.template.success}}" placeholder="请输入下单成功通知模板" data-field="form.notify.template.success" bindinput="inputChange"></input>
+          </mp-cell>
+          <mp-cell title="订单取消">
+						<input class="weui-input" value="{{form.notify.template.cancel}}" placeholder="请输入订单取消通知模板" data-field="form.notify.template.cancel" bindinput="inputChange"></input>
+          </mp-cell>
+          <mp-cell title="订单完成">
+						<input class="weui-input" value="{{form.notify.template.finish}}" placeholder="请输入订单完成通知模板" data-field="form.notify.template.finish" bindinput="inputChange"></input>
+          </mp-cell>
+        </mp-cells>
+				<my-config-voucher title="打印订单" value="{{form.voucher}}" bind:change="voucherChange"></my-config-voucher>
+      </block>
+      <block wx:if="{{curTab=='1'}}">
+        <mp-cells>
+          <mp-cell title="启用功能">
+						<view slot="footer">
+							<switch checked="{{form.arrival.active}}" data-field="form.arrival.active" bindchange="switchChange"></switch>
+						</view>
+          </mp-cell>
+					<mp-cell title="服务范围">
+						<input class="weui-input" value="{{form.arrival.use_distance}}" type="number" maxlength="6" placeholder="请输入服务范围" data-field="form.arrival.use_distance" bindinput="inputNumber"></input>
+						<view slot="footer">米</view>
+          </mp-cell>
+					<mp-cell title="自动接单">
+						<view slot="footer">
+							<switch checked="{{form.arrival.auto_receive}}" data-field="form.arrival.auto_receive" bindchange="switchChange"></switch>
+						</view>
+          </mp-cell>
+					<mp-cell title="自动制作">
+						<view slot="footer">
+							<switch checked="{{form.arrival.auto_make}}" data-field="form.arrival.auto_make" bindchange="switchChange"></switch>
+						</view>
+          </mp-cell>
+        </mp-cells>
+      </block>
+      <block wx:if="{{curTab=='2'}}">
+        <mp-cells>
+          <mp-cell title="启用功能">
+						<view slot="footer">
+							<switch checked="{{form.reserve.active}}" data-field="form.reserve.active" bindchange="switchChange"></switch>
+						</view>
+          </mp-cell>
+					<mp-cell title="服务范围">
+						<input class="weui-input" value="{{form.reserve.use_distance}}" type="number" maxlength="6" placeholder="请输入服务范围" data-field="form.reserve.use_distance" bindinput="inputNumber"></input>
+						<view slot="footer">米</view>
+          </mp-cell>
+					<mp-cell title="自动接单">
+						<view slot="footer">
+							<switch checked="{{form.reserve.auto_receive}}" data-field="form.reserve.auto_receive" bindchange="switchChange"></switch>
+						</view>
+          </mp-cell>
+					<mp-cell title="提前下单">
+						<input class="weui-input" value="{{form.reserve.advance}}" type="number" maxlength="4" placeholder="请输入提前下单" data-field="form.reserve.advance" bindinput="inputNumber"></input>
+						<view slot="footer">分钟</view>
+          </mp-cell>
+        </mp-cells>
+				<mp-cells title="预定时间">
+          <my-config-timerange value="{{form.reserve.timerange}}" bind:change="timerangeChange"></my-config-timerange>
+				</mp-cells>
+      </block>
+		</mp-form>
+		<my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">保 存</button>
+    </view>
+	</view>
+</view>

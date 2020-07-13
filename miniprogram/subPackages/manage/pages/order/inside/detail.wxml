@@ -1,0 +1,178 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="订单详情" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view wx:if="{{detail}}" class="page__bd">
+    <mp-cells ext-class="my-cells">
+      <mp-cell title="订单编号">
+        <view class="text-bold" data-text="{{detail.order_sn}}" bindtap="copyText">{{detail.order_sn}}</view>
+        <view slot="footer">
+          <view wx:if="{{detail.state==0}}" class="cu-tag">未付款</view>
+          <view wx:if="{{detail.state==10}}" class="cu-tag bg-red">待处理</view>
+          <view wx:if="{{detail.state==11}}" class="cu-tag bg-yellow">已接单</view>
+          <view wx:if="{{detail.state==12}}" class="cu-tag bg-green">制作中</view>
+          <view wx:if="{{detail.state==41||detail.state==42}}" class="cu-tag bg-black">已取消</view>
+          <view wx:if="{{detail.state==5}}" class="cu-tag bg-blue">已完成</view>
+        </view>
+      </mp-cell>
+      <block wx:if="{{detail.mode=='reserve'}}">
+        <mp-cell wx:if="{{detail.table}}" title="分配餐桌">
+          <view>{{detail.table}}</view>
+        </mp-cell>
+        <mp-cell title="预定时间">
+          <view>{{detail.time_string}}</view>
+        </mp-cell>
+        <mp-cell title="联系方式">
+          <view>
+            <text decode>{{detail.contacts.name}} ({{detail.contacts.gender==1?'先生':'女士'}})&nbsp;</text>
+            <text>{{detail.contacts.mobile}}</text>
+          </view>
+        </mp-cell>
+      </block>
+      <block wx:else>
+        <mp-cell title="下单餐桌">
+          <view>{{detail.table}}</view>
+        </mp-cell>
+      </block>
+      <mp-cell title="下单时间">
+        <view>{{detail.create_time}}</view>
+      </mp-cell>
+    </mp-cells>
+    <mp-cells title="订单内容" ext-class="my-cells">
+      <mp-cell wx:for="{{detail.menu_list}}" wx:key="index">
+        <view slot="title">
+          <view>{{item.name}}
+            <block wx:if="{{item.model}}">({{item.model}})</block>
+            <view wx:if="{{item.pack}}" class="cu-tag bg-yellow sm margin-left-xs">打包</view>
+            <view wx:if="{{item.gift}}" class="cu-tag sm line-green margin-left-xs">赠品</view>
+          </view>
+          <block wx:if="{{item.type=='combo'}}">
+            <view wx:for="{{item.combo}}" wx:key="index" class="text-sm">
+              <text>+{{item.name}}</text>
+              <text wx:for="{{item.option}}" wx:key="index" decode>&nbsp;{{item}} </text>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="text-sm">
+              <text wx:for="{{item.option}}" wx:key="index" decode>{{item}}&nbsp;</text>
+            </view>
+          </block>
+          <view wx:if="{{item.remark}}" class="text-sm">
+            <text class="cuIcon-edit"></text>{{item.remark}}
+          </view>
+        </view>
+        <view slot="footer">
+          <view>x{{item.amount}}</view>
+          <view style="{{item.gift?'text-decoration:line-through;':''}}">¥{{item.price*item.amount/100}}</view>
+        </view>
+      </mp-cell>
+      <mp-cell wx:if="{{detail.seat_count>0}}" title="餐位费">
+        <view slot="footer">
+          <view>x{{detail.seat_count}}</view>
+          <view>¥{{detail.seat_price*detail.seat_count/100}}</view>
+        </view>
+      </mp-cell>
+      <mp-cell wx:if="{{detail.pack_money>0}}" title="包装费">
+        <view slot="footer">¥{{detail.pack_money/100}}</view>
+      </mp-cell>
+      <mp-cell wx:if="{{detail.remark!=''}}" title="备注说明">
+        <view>{{detail.remark}}</view>
+      </mp-cell>
+    </mp-cells>
+    <mp-cells title="订单结账" ext-class="my-cells">
+      <mp-cell title="合计金额">
+        <view>¥{{detail.total_money/100}}</view>
+      </mp-cell>
+      <mp-cell wx:if="{{detail.reward_money}}" title="赠送金额">
+        <view>¥{{detail.reward_money/100}}</view>
+      </mp-cell>
+      <mp-cell wx:if="{{detail.total_money!=detail.payable_money}}" title="应付金额">
+        <view>¥{{detail.payable_money/100}}</view>
+      </mp-cell>
+      <block wx:if="{{detail.payment_money}}">
+        <mp-cell title="实付金额">
+          <view>¥{{detail.payment_money/100}}</view>
+        </mp-cell>
+        <mp-cell title="付款方式">
+          <view>微信支付</view>
+        </mp-cell>
+      </block>
+      <mp-cell wx:if="{{detail.refund_money}}" title="退款金额">
+        <view>
+          <text>¥{{detail.refund_money/100}}</text>
+        </view>
+        <!-- <view wx:if="{{detail.refund_state==1}}" slot="footer">
+          <view class="cu-tag bg-yellow">处理中</view>
+        </view> -->
+      </mp-cell>
+    </mp-cells>
+    <mp-cells wx:if="{{refund.list.length}}" title="退款记录" ext-class="my-cells">
+      <mp-cell wx:for="{{refund.list}}" wx:key="index">
+        <view slot="title">
+          <view>
+            <text>¥{{item.money/100}}</text>
+          </view>
+          <view class="text-sm">{{item.note}}</view>
+        </view>
+        <view slot="footer">
+          <!-- <view>
+            <view wx:if="{{item.state==0}}" class="cu-tag bg-grey">待退款</view>
+            <view wx:if="{{item.state==1}}" class="cu-tag bg-green">退款中</view>
+            <view wx:if="{{item.state==2}}" class="cu-tag bg-blue">已完成</view>
+            <view wx:if="{{item.state==3}}" class="cu-tag bg-blue">已超时</view>
+            <view wx:if="{{item.state==-1}}" class="cu-tag bg-red">异常</view>
+          </view> -->
+          <view>
+            <text class="text-sm">{{item.start_time}}</text>
+          </view>
+        </view>
+      </mp-cell>
+    </mp-cells>
+    <mp-cells wx:if="{{detail.state!=0&&detail.state!=10}}" title="处理信息" ext-class="my-cells">
+      <mp-cell wx:if="{{detail.receive_time}}" title="接单时间">
+        <view>{{detail.receive_time}}</view>
+      </mp-cell>
+      <mp-cell wx:if="{{detail.make_time}}" title="制作时间">
+        <view>{{detail.make_time}}</view>
+      </mp-cell>
+      <mp-cell wx:if="{{detail.finish_time}}" title="完成时间">
+        <view>{{detail.finish_time}}</view>
+      </mp-cell>
+      <block wx:if="{{detail.state==41||detail.state==42}}">
+        <mp-cell title="取消时间">
+          <view>{{detail.cancel_time}}</view>
+          <view slot="footer">
+            <text wx:if="{{detail.state==41}}">客户取消</text>
+            <text wx:if="{{detail.state==42}}">商家取消</text>
+          </view>
+        </mp-cell>
+        <mp-cell title="取消说明">
+          <view>{{detail.cancel_note}}</view>
+        </mp-cell>
+      </block>
+    </mp-cells>
+    <my-footer></my-footer>
+  </view>
+</view>
+<block wx:if="{{operate.print||operate.refund||operate.remove}}">
+  <view class="cu-tabbar-height"></view>
+  <view class="cu-bar bg-white btn-group foot fix-bar">
+    <button wx:if="{{operate.print}}" class="cu-btn bg-blue shadow-blur round lg" bindtap="print">打 印</button>
+    <button wx:if="{{operate.refund}}" class="cu-btn bg-yellow shadow-blur round lg" bindtap="refund">退 款</button>
+    <button wx:if="{{operate.remove}}" class="cu-btn bg-red shadow-blur round lg" bindtap="remove">删 除</button>
+  </view>
+</block>
+<mp-dialog title="订单退款" show="{{refund.dialog}}" bindbuttontap="tapRefund" buttons="{{refund.buttons}}" ext-class="my-dialog">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form id="refundForm" rules="{{refund.rules}}" models="{{refund.form}}">
+    <mp-cells>
+      <mp-cell prop="money" title="退还金额">
+        <input type="digit" value="{{refund.form.money}}" data-field="refund.form.money" maxlength="6" bindinput="inputDigit" class="weui-input" placeholder="请输入退还金额"/>
+        <view slot="footer" class="text-sm text-yellow">
+          最多{{(detail.payment_money-detail.refund_money)/100}}元
+        </view>
+      </mp-cell>
+      <mp-cell prop="note" title="退款说明">
+        <input value="{{refund.form.note}}" data-field="refund.form.note" maxlength="20" bindinput="inputChange" class="weui-input" placeholder="请输入退款说明"/>
+      </mp-cell>
+    </mp-cells>
+  </mp-form>
+</mp-dialog>

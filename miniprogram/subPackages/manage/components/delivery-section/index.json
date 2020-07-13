@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-dialog": "weui-miniprogram/dialog/dialog",
+    "mp-toptips": "weui-miniprogram/toptips/toptips",
+    "mp-slideview": "weui-miniprogram/slideview/slideview",
+    "my-timerange": "../timerange/index"
+  }
+}

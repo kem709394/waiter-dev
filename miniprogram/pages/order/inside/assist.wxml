@@ -1,0 +1,96 @@
+<wxs src="../../../utils/tools.wxs" module="tools" />
+<view class="cu-custom bg-gradual-blue" style="height: calc({{customBarHeight}}px + 94rpx);">
+  <view class="cu-bar fixed" style="height:{{customBarHeight}}px;padding-top:{{statusBarHeight}}px;">
+    <view class="action border-custom" style="width:{{menuButton.width}}px;height:{{menuButton.height}}px;margin-left:calc(100vw - {{menuButton.right}}px)" bindtap="home">
+      <text class="cuIcon-homefill" style="font-size:{{menuButton.height/2}}px;"></text>
+      <text style="font-size:{{menuButton.height/2}}px;">首页</text>
+    </view>
+    <view class="content" style="top:{{statusBarHeight}}px">
+      协助点餐
+    </view>
+  </view>
+  <view class="flex" style="padding-top: calc({{customBarHeight}}px + 10rpx);;">
+    <view class="flex-sub flex justify-center align-center">
+      <text class="text-bold text-xl">邀请人</text>
+    </view>
+    <view class="flex-treble flex align-center">
+      <image class="cu-avatar round" src="{{master.avatar_url}}" mode="aspectFit"></image>
+      <text class="text-black text-lg" decode>&nbsp;{{master.nick_name}}</text>
+    </view>
+  </view>
+</view>
+<view class="page">
+  <view class="page__bd">
+    <mp-searchbar bindselectresult="searchBack" search="{{searchMenu}}"></mp-searchbar>
+    <view style="height:calc(100vh - {{customBarHeight}}px - 300rpx);">
+      <mp-vtabs 
+        vtabs="{{vtabs}}" 
+        activeTab="{{activeTab}}" 
+      >
+        <block wx:for="{{vtabs}}" wx:key="title" >
+          <mp-vtabs-content tabIndex="{{index}}">
+            <view class="weui-panel weui-panel_access" style="border: none;">
+              <view class="weui-panel__hd">{{item.title}}</view>
+              <view class="weui-panel__bd">
+                <block wx:for="{{item.items}}" wx:key="index">
+                  <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" data-id="{{item}}" bindtap="showDetail">
+                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                      <image class="weui-media-box__thumb" src="{{menu.data[item].cover}}" lazy-load />
+                    </view>
+                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                      <view class="weui-media-box__title">{{menu.data[item].name}}</view>
+                      <view class="weui-media-box__desc">
+                        <view class="text-gray">销量{{menu.data[item].statistics.sales}}</view>
+                        <view class="flex">
+                          <view class="flex-twice">
+                            <block wx:if="{{menu.data[item].type=='vary'}}">
+                            <text class="text-red text-bold">{{menu.data[item].price_note}}</text>
+                          </block>
+                          <block wx:else>
+                            <view>
+                              <text class="text-red text-xl text-bold">¥{{menu.data[item].price/100}}</text>
+                              <text wx:if="{{menu.data[item].price2}}" class="text-gray" style="text-decoration:line-through;" decode>&nbsp;¥{{menu.data[item].price2/100}}</text>
+                            </view>
+                            <view wx:if="{{menu.data[item].price2}}" class="text-red text-sm">
+                              <text class="cuIcon-down"></text>{{tools.discount(menu.data[item].price,menu.data[item].price2)}}折
+                            </view>
+                          </block>
+                          </view>
+                          <view class="flex-twice flex justify-end padding-right-sm">
+                            <block wx:if="{{menu.remain[item]==undefined}}">
+                              <checkbox catchtap="toggleMenu" data-id="{{item}}" checked="{{tools.inArray(item,checked)}}" class="round"></checkbox>
+                            </block>
+                            <block wx:else>
+                              <block wx:if="{{menu.remain[item]>0}}">
+                                <checkbox catchtap="toggleMenu" data-id="{{item}}" checked="{{tools.inArray(item,checked)}}" class="round"></checkbox>
+                              </block>
+                              <block wx:else>
+                                <view class="cu-tag bg-grey round">售罄</view>
+                              </block>
+                            </block>
+                          </view>
+                        </view> 
+                      </view>
+                    </view>
+                  </view>
+                </block>
+              </view>
+            </view>
+          </mp-vtabs-content>
+        </block>
+      </mp-vtabs>
+    </view>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar bg-white tabbar border shop foot fix-bar" style="z-index: 5001;">
+      <view class="action" bindtap="showChecked">
+        <view class="cuIcon-all">
+          <view wx:if="{{checked.length>0}}" class="cu-tag badge">{{checked.length}}</view>
+        </view>
+        已选
+      </view>
+      <view class="submit bg-gradual-blue text-xl text-bold" bindtap="affirmChecked">发送给邀请人</view>
+    </view>
+  </view>
+</view>
+<menu-detail-checkbox show="{{dialog.detail}}" menu="{{current}}" remain="{{menu.remain}}" checked="{{tools.inArray(current._id,checked)}}" bind:toggle="toggleMenu2"></menu-detail-checkbox>
+<menu-assist-list show="{{dialog.checked}}" data="{{menu.data}}" list="{{checked}}" bind:clear="clearChecked" bind:remove="removeChecked"></menu-assist-list>

@@ -1,0 +1,79 @@
+<view bindtap="close" class="weui-mask {{show ? '' : 'weui-mask_hidden' }}"></view>
+<view wx:if="{{show}}" bindtap="close" class="weui-dialog__wrp">
+	<view class="weui-dialog" catchtap="stopEvent">
+		<view class="weui-dialog__hd padding">
+			<view class="weui-dialog__title">{{menu.name}}</view>
+		</view>
+		<view class="weui-dialog__bd padding-lr">
+			<scroll-view scroll-y style="max-height: 50vh;">
+				<image src="{{menu.cover}}" mode="aspectFit"></image>
+				<view class="text-left">
+					<view class="padding-top-sm text-sm text-gray">
+						<text>销量{{menu.statistics.sales}}</text>
+					</view>
+					<view class="padding-top-sm text-sm">
+						<text>{{menu.intro}}</text>
+					</view>
+				</view>
+			</scroll-view>
+		</view>
+		<view class="weui-dialog__ft">
+			<view class="weui-flex__item padding-left flex justify-start align-center">
+				<block wx:if="{{menu.type=='vary'}}">
+					<text class="text-red text-xl text-bold">{{menu.price_note}}</text>
+				</block>
+				<block wx:else>
+					<text class="text-red text-xl text-bold">¥{{menu.price/100}}</text>
+					<text wx:if="{{menu.price2}}" class="text-gray" style="text-decoration:line-through;" decode>&nbsp;¥{{menu.price2/100}}</text>
+				</block>
+			</view>
+			<view class="weui-flex__item padding-right flex justify-end align-center">
+				<block wx:if="{{menu.type=='vary'}}">
+					<block wx:if="{{remain[menu._id]==undefined||remain[menu._id]>0}}">
+						<view wx:if="{{mode=='1'}}" class="cu-tag bg-green round" catchtap="chooseMenu">选择
+							<view wx:if="{{count[menu._id]}}" class="cu-tag badge">{{count[menu._id]}}</view>
+						</view>
+						<view wx:else class="cu-tag round line-yellow">请到店下单</view>
+					</block>
+					<block wx:else>
+						<view class="cu-tag bg-grey round">售罄</view>
+					</block>
+				</block>
+				<block wx:elif="{{menu.type=='combo'}}">
+					<view wx:if="{{remain[menu._id]==undefined||remain[menu._id]>0}}" class="cu-tag bg-green round" catchtap="chooseMenu">选择
+						<view wx:if="{{count[menu._id]}}" class="cu-tag badge">{{count[menu._id]}}</view>
+					</view>
+					<view wx:else class="cu-tag bg-grey round">售罄</view>
+				</block>
+				<block wx:else>
+					<block wx:if="{{menu.model.active||menu.option.active}}">
+						<view wx:if="{{remain[menu._id]==undefined||remain[menu._id]>0}}" class="cu-tag bg-green round" catchtap="chooseMenu">选择
+							<view wx:if="{{count[menu._id]}}" class="cu-tag badge">{{count[menu._id]}}</view>
+						</view>
+						<view wx:else class="cu-tag bg-grey round">售罄</view>
+					</block>
+					<block wx:else>
+						<block wx:if="{{remain[menu._id]==undefined||remain[menu._id]>0}}">
+							<view wx:if="{{mode=='3'}}" class="flex align-center justify-end">
+								<image wx:if="{{count[menu._id]}}" class="count-btn" src="/images/sub.png" catchtap="subAmount"></image>
+								<view wx:if="{{count[menu._id]}}" class="flex align-center justify-center counter">
+									<text>{{count[menu._id]}}</text>
+								</view>
+								<image class="count-btn" src="/images/add.png" catchtap="addAmount"></image>
+							</view>
+							<view wx:else class="cu-tag bg-green round" catchtap="chooseMenu">选择
+								<view wx:if="{{count[menu._id]}}" class="cu-tag badge">{{count[menu._id]}}</view>
+							</view>
+						</block>
+						<block wx:else>
+							<view class="cu-tag bg-grey round">售罄</view>
+						</block>
+					</block>
+				</block>
+			</view>
+		</view>
+		<view class="margin-top text-center" bindtap="close">
+			<image src="/images/close.png" mode="aspectFit" style="height: 35px;"></image>
+		</view>
+	</view>
+</view>

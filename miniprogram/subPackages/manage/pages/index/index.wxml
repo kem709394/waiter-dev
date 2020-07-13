@@ -1,0 +1,51 @@
+<drawer title="管理后台" refresher="{{true}}" bind:refresh="init">
+  <view slot="content">
+    <view class="bg-white padding">
+      <view class="flex justify-center">
+        <image class="cu-avatar round lg" src="{{staff.avatar}}" mode="aspectFill"></image>
+      </view>
+      <view class="flex justify-center margin-top-xs">
+        <text>{{staff.full_name}}</text>
+      </view>
+    </view>
+    <view class="cu-bar bg-white solid-bottom margin-top">
+      <view class="action">
+        <text class="cuIcon-title text-orange"></text> 订单统计
+      </view>
+    </view>
+    <view class="cu-list grid col-3">
+      <view class="cu-item">
+        <view>{{count.inside_order}}</view>
+        <text>点餐</text>
+      </view>
+      <view class="cu-item">
+        <view>{{count.outside_order}}</view>
+        <text>外卖</text>
+      </view>
+      <view class="cu-item">
+        <view>{{count.book_order}}</view>
+        <text>订桌</text>
+      </view>
+    </view>
+    <view class="cu-bar bg-white solid-bottom margin-top">
+      <view class="action">
+        <text class="cuIcon-title text-orange "></text> 其它统计
+      </view>
+    </view>
+    <view class="cu-list grid col-3">
+      <view class="cu-item">
+        <view>{{count.staff}}</view>
+        <text>职员</text>
+      </view>
+      <view class="cu-item">
+        <view>{{count.table}}</view>
+        <text>餐桌</text>
+      </view>
+      <view class="cu-item">
+        <view>{{count.menu}}</view>
+        <text>菜品</text>
+      </view>
+    </view>
+    <my-footer></my-footer>
+  </view>
+</drawer>

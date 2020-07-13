@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
+    "mp-vtabs": "../../../components/vtabs/index",
+    "mp-vtabs-content": "../../../components/vtabs-content/index",
+    "menu-detail": "../../../components/menu-detail/index",
+    "menu-base-choose": "../../../components/menu-base-choose/index",
+    "menu-combo-choose": "../../../components/menu-combo-choose/index",
+    "menu-order-list": "../../../components/menu-order-list/index"
+  }
+}

@@ -1,0 +1,67 @@
+<wxs src="../../utils/tools.wxs" module="tools" />
+<view bindtap="close" class="weui-mask {{show ? '' : 'weui-mask_hidden' }}"></view>
+<view wx:if="{{show}}" bindtap="close" class="weui-dialog__wrp">
+	<view class="weui-dialog" catchtap="stopEvent">
+		<view class="weui-dialog__hd padding" style="border-bottom: 0.5px solid rgba(0,0,0,.1);">
+			<view class="weui-dialog__title">{{menu.name}}</view>
+		</view>
+		<view class="weui-dialog__bd padding-lr">
+			<scroll-view scroll-y style="max-height: 50vh;">
+			<view class="text-left">
+				<view wx:if="{{menu.model.active}}" class="padding-tb solid-bottom">
+					<view>规格</view>
+					<view>
+						<block wx:for="{{menu.model.list}}" wx:for-item="item" wx:key="index">
+							<view class="cu-tag {{item.name==form.model?'line-white bg-green':'line-grey'}}" style="margin: 20rpx 10rpx 0 0;" data-name="{{item.name}}" bindtap="modelChange">{{item.name}}</view>
+						</block>
+					</view>
+				</view>
+				<block wx:if="{{menu.option.active}}">
+					<block wx:for="{{menu.option.list}}" wx:for-item="item1" wx:for-index="index1" wx:key="index1">
+						<view class="padding-tb solid-bottom">
+							<view>{{item1.name}}</view>
+							<view>
+								<block wx:for="{{item1.items}}" wx:for-item="item2" wx:key="index">
+									<view class="cu-tag {{tools.inArray(item2,form.option)?'line-white bg-green':'line-grey'}}" style="margin: 20rpx 10rpx 0 0;" data-index="{{index1}}" data-value="{{item2}}" bindtap="optionChange">{{item2}}</view>
+								</block>
+							</view>
+						</view>
+					</block>
+				</block>
+				<view wx:if="{{pack}}" class="padding-tb flex">
+					<view class="flex-treble">
+						<view>打包</view>
+						<block wx:if="{{menu.pack.money>0}}">
+							<view wx:if="{{menu.pack.mode=='every'}}" class="text-sm">每份加收{{menu.pack.money/100}}元包装费</view>
+							<view wx:else class="text-sm">加收{{menu.pack.money/100}}元包装费,不限数量</view>
+						</block>
+					</view>
+					<view class="flex-sub text-right">
+						<switch checked="{{form.pack}}" bindchange="packChange"></switch>
+					</view>
+				</view>
+				<view wx:if="{{gift}}" class="padding-tb flex">
+					<view class="flex-treble">
+						<view>赠送</view>
+					</view>
+					<view class="flex-sub text-right">
+						<switch checked="{{form.gift}}" bindchange="giftChange"></switch>
+					</view>
+				</view>
+			</view>
+			</scroll-view>
+		</view>
+		<view class="weui-dialog__ft">
+			<view class="weui-flex__item padding-left flex justify-start align-center">
+				<text class="text-red text-xl text-bold">¥{{(menu.price+form.raise)/100}}</text>
+				<text wx:if="{{menu.price2}}" class="text-gray" style="text-decoration:line-through;" decode>&nbsp;¥{{(menu.price2+form.raise)/100}}</text>
+			</view>
+			<view class="weui-flex__item padding-right flex justify-end align-center">
+				<button class="cu-btn round bg-blue" catchtap="addOrder">加入菜单</button>
+			</view>
+		</view>
+		<view class="margin-top text-center" bindtap="close">
+			<image src="/images/close.png" mode="aspectFit" style="height: 35px;"></image>
+		</view>
+	</view>
+</view>

@@ -1,0 +1,41 @@
+<navigation-bar show="{{true}}" animated="{{true}}" title="新增地址" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+	<view class="page__bd">
+		<mp-form id="form" rules="{{rules}}" models="{{models}}">
+			<mp-cells>
+				<mp-cell prop="name" title="姓名称呼">
+					<input class="weui-input" value="{{form.contacts.name}}" maxlength="5" placeholder="请输入姓名称呼" data-field="form.contacts.name" data-rule="models.name" bindinput="inputChange"></input>
+					<view slot="footer">
+						<text decode>{{form.contacts.gender==1?'先生':'女士'}}&nbsp;</text>
+						<switch class="switch-sex" checked="{{form.contacts.gender==1}}" bindchange="genderChange"></switch>
+					</view>
+				</mp-cell>
+				<mp-cell prop="mobile" title="手机号码">
+					<input class="weui-input" type="number" value="{{form.contacts.mobile}}" maxlength="11" placeholder="输入手机号码" data-field="form.contacts.mobile" data-rule="models.mobile" bindinput="inputChange"></input>
+				</mp-cell>
+				<mp-cell title="地图定位" link>
+					<view slot="footer" bindtap="chooseLocation">
+						<view class="text">
+							<block wx:if="{{form.location}}">
+								<text wx:if="{{form.location.name==''}}">当前位置没有地标</text>
+								<text>{{form.location.name}}</text>
+							</block>
+							<block wx:else>
+								<text class="text-gray">请选择定位</text>
+							</block>
+						</view>
+					</view>
+				</mp-cell>
+				<mp-cell prop="content" title="详细地址">
+					<input class="weui-input" value="{{form.content}}" maxlength="30" placeholder="详细地址（如门牌号等）" data-field="form.content" data-rule="models.content" bindinput="inputChange"></input>
+				</mp-cell>
+			</mp-cells>
+		</mp-form>
+		<my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">保 存</button>
+    </view>
+	</view>
+</view>

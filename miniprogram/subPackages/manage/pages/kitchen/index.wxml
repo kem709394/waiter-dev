@@ -1,0 +1,34 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<drawer title="{{title}}" refresher="{{true}}" bind:refresh="init" bind:lower="load">
+  <view slot="content" class="margin-top-xs">
+    <view wx:if="{{total>0}}" class="weui-panel weui-panel_access">
+      <view class="weui-panel__bd">
+        <block wx:for="{{list}}" wx:key="index">
+          <mp-slideview buttons="{{buttons}}" data-index="{{index}}" bindbuttontap="tapSlide">
+            <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" data-index="{{index}}" bindtap="detail">
+              <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                <image class="weui-media-box__thumb" src="{{item.cover}}" lazy-load/>
+              </view>
+              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">{{item.name}}</view>
+              </view>
+            </view>
+          </mp-slideview>
+        </block>
+      </view>
+    </view>
+    <view wx:else class="text-center">
+      <view class="text-xsl padding">
+        <text class="cuIcon-infofill text-grey"></text>
+      </view>
+      <text>暂无数据</text>
+    </view>
+    <view wx:if="{{loading}}" class="cu-load loading"></view>
+    <view wx:if="{{finish}}" class="cu-load over"></view>
+    <my-footer></my-footer>
+  </view>
+  <view slot="footer" id="footer" class="cu-bar tabbar border foot">
+    <view wx:if="{{tools.inArray('kitchen-create', privilege) && total<20}}" class="submit text-xl bg-gradual-blue" bindtap="create">添 加</view>
+    <view wx:else class="bg-grey submit text-xl">添 加</view>
+  </view>
+</drawer>

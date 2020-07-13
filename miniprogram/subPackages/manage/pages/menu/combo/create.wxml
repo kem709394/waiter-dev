@@ -1,0 +1,134 @@
+<wxs src="../../../../../utils/tools.wxs" module="tools" />
+<navigation-bar show="{{true}}" animated="{{true}}" title="添加套餐" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__bd">
+		<my-toptips msg="{{error}}" type="error" show="{{error}}"></my-toptips>
+		<mp-form id="form" rules="{{rules}}" models="{{models}}">
+			<mp-cells title="基本信息">
+				<mp-cell title="套餐封面">
+					<image class="cu-avatar lg" src="{{form.cover}}" mode="aspectFill" bindtap="coverChange"></image>
+				</mp-cell>
+				<mp-cell prop="name" title="套餐名称">
+					<input class="weui-input" value="{{form.name}}" maxlength="10" placeholder="请输入套餐名称" data-field="form.name" data-rule="models.name" bindinput="inputChange"></input>
+				</mp-cell>
+				<mp-cell title="备注名称">
+          <input class="weui-input" value="{{form.alias}}" maxlength="10" placeholder="请输入备注名称" data-field="form.alias" bindinput="inputChange"></input>
+				</mp-cell>
+				<mp-cell>
+          <view wx:if="{{!focus.intro}}" data-focus="focus.intro" bindtap="focusTextarea">
+            <text wx:if="{{form.intro==''}}" class="text-gray">请输入套餐描述</text>
+            <text wx:else>{{form.intro}}</text>
+          </view>
+					<textarea wx:if="{{focus.intro}}" class="weui-textarea" value="{{form.intro}}" focus="{{focus.intro}}" maxlength="200" placeholder="请输入套餐描述" data-field="form.intro" data-focus="focus.intro" bindblur="blurTextarea" bindinput="inputChange" style="height: 3.3em" />
+					<view class="weui-textarea-counter">{{form.intro.length}}/20</view>
+        </mp-cell>
+      </mp-cells>
+      <mp-cells title="价格设置">
+				<mp-cell title="销售价格">
+					<input class="weui-input" value="{{form.price}}" type="digit" maxlength="6" placeholder="请输入销售价格" data-field="form.price" bindinput="inputDigit"></input>
+          <view slot="footer">元</view>
+				</mp-cell>
+				<mp-cell title="折前价格">
+					<input class="weui-input" value="{{form.price2}}" type="digit" maxlength="6" placeholder="请输入折前价格" data-field="form.price2" bindinput="inputDigit"></input>
+          <view slot="footer">元</view>
+				</mp-cell>
+				<mp-cell title="包装费用" link>
+          <input class="weui-input" value="{{form.pack.money}}" type="digit" maxlength="6" placeholder="请输入打包费用" data-field="form.pack.money" bindinput="inputDigit"></input>
+          <view slot="footer">
+            <picker range="{{pack.options}}" range-key="name" bindchange="packChange">
+              <view class="picker">
+                <text decode>元&nbsp;&nbsp;&nbsp;</text>{{pack.options[pack.index].name}}
+              </view>
+            </picker>
+          </view>
+        </mp-cell>
+      </mp-cells>
+      <mp-cells title="菜品选项">
+        <block wx:for="{{form.combo}}" wx:key="index">
+          <mp-slideview buttons="{{combo.itemButtons}}" data-index="{{index}}" bindbuttontap="tapCombo">
+            <mp-cell title="{{item.name}}">
+              <view>{{item.list.length}}选{{item.amount}}</view>
+              <view slot="footer">
+                <text class="cuIcon-roundleftfill-copy lg"></text>
+              </view>
+            </mp-cell>
+          </mp-slideview>
+        </block>
+        <view wx:if="{{form.combo.length==0}}" class="padding-top">
+          <view class="padding text-center">
+            <text class="cuIcon-infofill lg"></text> 暂无选项
+          </view>
+        </view>
+        <mp-cell>
+          <view class="dashed">
+            <view class="padding-tb text-center" bindtap="addCombo">
+              <text class="cuIcon-add"></text>添加
+            </view>
+          </view>
+        </mp-cell>
+      </mp-cells>
+      <mp-cells title="其它设置">
+				<mp-cell title="可见栏目">
+          <view slot="footer">
+            <checkbox-group bindchange="scopeChange">
+              <checkbox value="inside"></checkbox>堂食
+              <checkbox value="outside"></checkbox>外卖
+            </checkbox-group>
+          </view>
+				</mp-cell>
+				<mp-cell wx:if="{{tools.inArray('inside', form.scope)}}" title="堂食栏目" link>
+          <view slot="footer">
+            <my-choose-column scope="inside" list="{{column}}" value="{{form.column.inside}}" bind:affirm="columnChange"></my-choose-column>
+          </view>
+				</mp-cell>
+        <mp-cell wx:if="{{tools.inArray('outside', form.scope)}}" title="外卖栏目" link>
+          <view slot="footer">
+            <my-choose-column scope="outside" list="{{column}}" value="{{form.column.outside}}" bind:affirm="columnChange"></my-choose-column>
+          </view>
+				</mp-cell>
+        <mp-cell title="销售数量">
+          <input class="weui-input" value="{{form.statistics.sales}}" maxlength="5" placeholder="请输入销售数量" data-field="form.statistics.sales" bindinput="inputNumber"></input>
+				</mp-cell>
+        <mp-cell title="是否公开">
+          <view slot="footer">
+            <switch checked="{{form.visible}}" data-field="form.visible" bindchange="switchChange"></switch>
+          </view>
+				</mp-cell>
+				<mp-cell prop="priority" title="优先级别">
+					<input class="weui-input" type="number" value="{{form.priority}}" maxlength="3" placeholder="请输入优先级别" data-field="form.priority" data-rule="models.priority" bindinput="inputNumber"></input>
+				</mp-cell>
+				<mp-cell>
+					<view wx:if="{{!focus.note}}" data-focus="focus.note" bindtap="focusTextarea">
+            <text wx:if="{{form.note==''}}" class="text-gray">请输入备注说明</text>
+            <text wx:else>{{form.note}}</text>
+          </view>
+					<textarea wx:if="{{focus.note}}" class="weui-textarea" value="{{form.note}}" focus="{{focus.note}}" maxlength="20" placeholder="请输入备注说明" data-field="form.note" data-focus="focus.note" bindblur="blurTextarea" bindinput="inputChange" style="height: 3.3em" />
+					<view class="weui-textarea-counter">{{form.note.length}}/20</view>
+        </mp-cell>
+      </mp-cells>
+		</mp-form>
+		<my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar btn-group foot bg-white">
+      <button class="cu-btn bg-green shadow-blur round lg" bindtap="submitForm">保 存</button>
+    </view>
+	</view>
+</view>
+<mp-dialog title="{{combo.index?'修改选项':'添加选项'}}" show="{{combo.dialog}}" bindbuttontap="tapComboForm" buttons="{{combo.formButtoms}}" ext-class="my-dialog">
+  <mp-form id="comboForm" rules="{{combo.rules}}" models="{{combo.form}}">
+    <mp-cells>
+      <mp-cell prop="name" title="选项名称">
+        <input value="{{combo.form.name}}" data-field="combo.form.name" data-rule="combo.form.name" maxlength="10" bindinput="inputChange" class="weui-input" placeholder="请输入规格名称"/>
+      </mp-cell>
+      <mp-cell prop="list" title="可选菜品" link>
+        <view bindtap="chooseMenu">
+          <view class="cu-tag">{{combo.form.list.length}}个</view>
+        </view>
+      </mp-cell>
+      <mp-cell prop="amount" title="可选数量">
+        <input value="{{combo.form.amount}}" type="number" data-field="combo.form.amount" data-rule="combo.form.amount" maxlength="2" bindinput="inputNumber" class="weui-input" placeholder="请输入可选数量"/>
+      </mp-cell>
+    </mp-cells>
+  </mp-form>
+</mp-dialog>
+<my-choose-menu show="{{menu.dialog}}" list="{{menu.options}}" value="{{combo.form.list}}" bind:affirm="affirmMenu"></my-choose-menu>

@@ -1,0 +1,4 @@
+.my-dialog .weui-dialog__bd {
+  padding: 0;
+  padding-bottom: 20rpx;
+}

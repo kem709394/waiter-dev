@@ -1,0 +1,41 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<view bindtap="open">
+  <block wx:if="{{value.length==0}}">请选择栏目</block>
+  <block wx:else>
+    <view wx:for="{{value}}" wx:key="index" class="cu-tag">{{tools.valueToName(list, item)}}</view>
+  </block>
+</view>
+<view class="{{show ? 'weui-show' :'weui-hidden'}}">
+	<view class="weui-mask init" catchtap="close"></view>
+	<view class="weui-half-screen-dialog">
+		<view class="weui-half-screen-dialog__hd solid-bottom">
+			<view class="weui-half-screen-dialog__hd__side text-df" catchtap="close">
+				取消
+			</view>
+			<view class="weui-half-screen-dialog__hd__main">
+				<text class="weui-half-screen-dialog__title">可选栏目</text>
+			</view>
+			<view class="weui-half-screen-dialog__hd__side text-df" bindtap="affirm">
+				确认
+			</view>
+		</view>
+		<view class="weui-half-screen-dialog__bd" style="padding-bottom:0;">
+			<scroll-view scroll-y style="max-height: 50vh;">
+				<checkbox-group bindchange="choose">
+					<view class="cu-list menu">
+						<view wx:for="{{list}}" wx:key="index" class="cu-item">
+							<view class="content flex">
+								<view class="flex-treble text-left" style="display:block;">
+									<text class="text-black">{{item.name}}</text>
+								</view>
+								<view class="flex-sub text-right">
+									<checkbox class="round" checked="{{tools.inArray(item.value, checked)}}" value="{{item.value}}"></checkbox>
+								</view>
+							</view>
+						</view>
+					</view>
+				</checkbox-group>
+			</scroll-view>
+		</view>
+	</view>
+</view>

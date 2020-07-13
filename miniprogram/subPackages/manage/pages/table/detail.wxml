@@ -1,0 +1,43 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<navigation-bar show="{{true}}" animated="{{true}}" title="餐桌详情" back="{{true}}" color="white" background="var(--gradualBlue)"></navigation-bar>
+<view class="page">
+	<view class="page__bd">
+		<mp-form>
+      <view class="bg-white padding">
+        <view class="text-center">
+          <image src="{{detail.cover}}" mode="aspectFit" style="height: 300rpx;"></image>
+        </view>
+      </view>
+      <mp-cells>
+        <mp-cell title="餐桌名称">
+          <view>{{detail.name}}</view>
+        </mp-cell>
+        <mp-cell title="容纳人数">
+          <view>{{detail.contain}}人</view>
+        </mp-cell>
+        <mp-cell title="当前状态">
+          <view>{{stateOptions[detail.state]}}</view>
+        </mp-cell>
+        <mp-cell title="优先级别">
+          <view>{{detail.priority}}</view>
+        </mp-cell>
+        <mp-cell title="备注说明">
+          <view>
+            <text>{{detail.note}}</text>
+          </view>
+        </mp-cell>
+      </mp-cells>
+    </mp-form>
+    <my-footer></my-footer>
+    <view class="cu-tabbar-height"></view>
+    <view class="cu-bar tabbar border foot" bindtap="showQrcode">
+      <view class="submit text-xl bg-gradual-blue">点餐码</view>
+    </view>
+  </view>
+</view>
+<mp-dialog title="{{detail.name}}" show="{{qrcode.dialog}}" bindbuttontap="tapQrcode" buttons="{{qrcode.buttons}}">
+  <image src="{{qrcode.url}}" mode="aspectFit" style="width: 80vw;"></image>
+</mp-dialog>
+<view style="position:fixed;top:999999px;">
+  <wxml-to-canvas class="widget" width="{{qrcode.style.container.width}}" height="{{qrcode.style.container.height}}"></wxml-to-canvas>
+</view>

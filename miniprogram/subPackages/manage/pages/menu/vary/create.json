@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-form": "weui-miniprogram/form/form",
+    "my-toptips": "/components/toptips/index",
+    "my-footer": "/components/footer/index",
+    "my-choose-column": "../../../components/choose-column/index",
+    "my-menu-option": "../../../components/menu-option/index"
+  }
+}

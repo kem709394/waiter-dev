@@ -1,0 +1,27 @@
+<view class="{{show ? 'weui-show' :'weui-hidden'}}">
+	<view class="weui-mask init"></view>
+	<view class="weui-half-screen-dialog">
+		<view class="weui-half-screen-dialog__hd">
+			<view class="weui-half-screen-dialog__hd__side text-df" catchtap="close">
+				取消
+			</view>
+			<view class="weui-half-screen-dialog__hd__main">
+				<text class="weui-half-screen-dialog__title">选择时间段</text>
+			</view>
+			<view class="weui-half-screen-dialog__hd__side text-df" catchtap="affirm">
+				确认
+			</view>
+		</view>
+		<view class="weui-half-screen-dialog__bd text-center">
+			<picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{current}}" bindchange="change">
+        <picker-view-column>
+          <view wx:for="{{24}}" wx:key="index" style="line-height: 50px">{{item}}时</view>
+        </picker-view-column>
+        <view class="flex align-center">至</view>
+        <picker-view-column>
+          <view wx:for="{{24}}" wx:key="index" style="line-height: 50px">{{item+1}}时</view>
+        </picker-view-column>
+      </picker-view>
+		</view>
+	</view>
+</view>

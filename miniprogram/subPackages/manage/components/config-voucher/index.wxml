@@ -1,0 +1,47 @@
+<wxs src="../../../../utils/tools.wxs" module="tools" />
+<mp-cells title="{{title}}">
+	<mp-cell title="启用设置">
+		<view slot="footer">
+			<switch checked="{{active}}" bindchange="activeChange"></switch>
+		</view>
+	</mp-cell>
+	<block wx:if="{{active}}">
+		<block wx:for="{{printer}}" wx:key="index">
+			<mp-slideview buttons="{{buttons}}" data-index="{{index}}" bindbuttontap="tapItem">
+				<mp-cell title="{{tools.valueToName(list,item.id)}}">
+					<view class="text-center">{{item.page}}页</view>
+					<view slot="footer">
+            <text class="cuIcon-roundleftfill-copy lg"></text>
+          </view>
+				</mp-cell>
+			</mp-slideview>
+		</block>
+    <view wx:if="{{printer.length==0}}" class="padding text-center">
+      <text class="cuIcon-infofill lg"></text> 暂无打印
+    </view>
+		<mp-cell>
+			<view class="margin dashed">
+				<view class="padding-tb text-center" bindtap="create">
+					<text class="cuIcon-add"></text>添加
+				</view>
+			</view>
+		</mp-cell>
+	</block>
+</mp-cells>
+<mp-dialog title="{{index?'修改打印':'添加打印'}}" show="{{dialog}}" bindbuttontap="tapDialog" buttons="{{dialogButtons}}" ext-class="my-dialog">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form>
+		<mp-cells>
+			<mp-cell title="打印设备">
+				<picker range="{{list}}" range-key="name" data-field="form.index" bindchange="printerChange">
+					<view class="picker">
+						{{form.index==null?'请选择打印设备':list[form.index].name}}
+					</view>
+				</picker>
+			</mp-cell>
+			<mp-cell title="打印页数">
+				<input value="{{form.page}}" type="number" data-field="form.page" maxlength="2" bindinput="inputNumber" class="weui-input" placeholder="请输入打印页数"/>
+			</mp-cell>
+		</mp-cells>
+  </mp-form>
+</mp-dialog>

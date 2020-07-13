@@ -1,0 +1,14 @@
+{
+  "usingComponents": {
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-form": "weui-miniprogram/form/form",
+    "mp-dialog": "weui-miniprogram/dialog/dialog",
+    "mp-slideview": "weui-miniprogram/slideview/slideview",
+    "mp-half-screen-dialog": "weui-miniprogram/half-screen-dialog/half-screen-dialog",
+    "my-toptips": "/components/toptips/index",
+    "my-footer": "/components/footer/index",
+    "my-choose-menu": "../../../components/choose-menu/index",
+    "my-choose-column": "../../../components/choose-column/index"
+  }
+}
