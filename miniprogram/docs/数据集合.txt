@@ -1,0 +1,216 @@
+address
+权限：
+{
+  "read": "doc._openid == auth.openid || auth.openid in get('database.cache.staff').data",
+  "write": "doc._openid == auth.openid || auth.openid in get('database.cache.staff').data"
+}
+索引：
+address_openid_index_: _openid
+
+book_order
+权限：
+{
+  "read": "doc.openid == auth.openid || auth.openid in get('database.cache.staff').data",
+  "write": false
+}
+索引：
+book_order_id_openid_index_: id,openid
+book_order_is_deleted_openid_create_time_index_: is_deleted,openid,create_time
+book_order_is_deleted_state_create_time_index_: is_deleted,state,create_time
+
+cache
+权限：默认
+索引：默认
+
+column
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：
+column_is_deleted_priority_create_time_index_: is_deleted,priority,create_time
+
+config
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：默认
+
+delivery
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：
+delivery_state_delivery_sid_create_time_index_: state,delivery_sid,create_time
+
+delivery_stat
+权限：默认
+索引：
+delivery_stat_delivery_sid_index_: delivery_sid
+
+feedback
+权限：
+{
+  "read": true,
+  "write": true
+}
+索引：
+feedback_is_deleted_create_time_index_: is_deleted,create_time
+
+inside_order
+权限：
+{
+  "read": "doc.openid == auth.openid || auth.openid in get('database.cache.staff').data",
+  "write": false
+}
+索引：
+inside_order_id_openid_index_: id,openid
+inside_order_is_deleted_openid_create_time_index_: is_deleted,openid,create_time
+inside_order_is_deleted_state_create_time_index_: is_deleted,state,create_time
+
+invoke
+权限：
+{
+  "read": true,
+  "write": true
+}
+索引：
+invoke_openid_table_create_time_index_: openid,table,create_time
+
+kitchen
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：
+kitchen_is_deleted_priority_index_: is_deleted,priority
+
+menu
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：
+menu_is_deleted_priority_create_time_index_: is_deleted,priority,create_time
+menu_is_deleted_visible_scope_priority_index_: is_deleted,visible,scope,priority
+
+menu_assist
+权限：
+{
+  "read": true,
+  "write": true
+}
+索引：
+menu_assist_master_assist_index_: master,assist
+
+menu_order_stat
+权限：默认
+索引：
+menu_order_stat_date_string_type_mid_index_: date_string,type,mid
+
+notice
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：
+notice_is_deleted_visible_create_time_index_: is_deleted,visible,create_time
+
+order_stat
+权限：默认
+索引：
+order_stat_date_string_type_index_: date_string,type
+
+outside_order
+权限：
+{
+  "read": "doc.openid == auth.openid || auth.openid in get('database.cache.staff').data",
+  "write": false
+}
+索引：
+outside_order_id_openid_index_: id,openid
+outside_order_is_deleted_openid_create_time_index_: is_deleted,openid,create_time
+outside_order_is_deleted_state_create_time_index_: is_deleted,state,create_time
+
+payment
+权限：
+{
+  "read": "doc.openid == auth.openid || auth.openid in get('database.cache.staff').data",
+  "write": false
+}
+索引：默认
+
+payment_refund
+权限：
+{
+  "read": "doc.openid == auth.openid || auth.openid in get('database.cache.staff').data",
+  "write": false
+}
+索引：默认
+
+printer
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：
+printer_priority_index_: priority
+
+queue
+权限：
+{
+  "read": "doc.openid == auth.openid || auth.openid in get('database.cache.staff').data",
+  "write": "doc.openid == auth.openid || auth.openid in get('database.cache.staff').data"
+}
+索引：
+queue_create_time_index_: create_time
+queue_openid_progress_index_: openid,progress
+
+serial_number
+权限：默认
+索引：默认
+
+staff
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：
+staff_is_deleted_priority_create_time_index_: is_deleted,priority,create_time
+
+table
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：
+table_is_deleted_priority_create_time_index_: is_deleted,priority,create_time
+
+user
+权限：
+{
+  "read": true,
+  "write": "doc.openid == auth.openid"
+}
+索引：
+user_openid_index_: openid
+user_create_time_index_: create_time
+
+vary_price
+权限：
+{
+  "read": true,
+  "write": "auth.openid in get('database.cache.staff').data"
+}
+索引：默认

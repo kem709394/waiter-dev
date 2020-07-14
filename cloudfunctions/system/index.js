@@ -94,11 +94,6 @@ class System {
       await db.createCollection('kitchen')
     }
     try {
-      await db.collection('member').get()
-    } catch (err) {
-      await db.createCollection('member')
-    }
-    try {
       await db.collection('menu').get()
     } catch (err) {
       await db.createCollection('menu')
@@ -199,10 +194,6 @@ class System {
         if (user.mobile) identity.mobile = user.mobile
         if (user.address) identity.address = user.address
         if (user.contacts) identity.contacts = user.contacts
-        if (user.mid) {
-          res = await db.collection('member').doc(user.mid).get()
-          identity.member = res.data
-        }
         res = await db.collection('staff').where({
           is_deleted: false,
           state: 1,

@@ -63,46 +63,6 @@ async function outside_order(payment_id) {
   }
 }
 
-async function recharge_order(payment_id) {
-  let res = await cloud.callFunction({
-    name: 'recharge_order',
-    data: {
-      action: 'payment_success',
-      payment_id: payment_id
-    }
-  })
-  if (res.result.errcode == 0) {
-    return {
-      errcode: 0,
-      errmsg: 'OK'
-    }
-  } else {
-    return {
-      errcode: -1
-    }
-  }
-}
-
-async function store_order(payment_id) {
-  let res = await cloud.callFunction({
-    name: 'store_order',
-    data: {
-      action: 'payment_success',
-      payment_id: payment_id
-    }
-  })
-  if (res.result.errcode == 0) {
-    return {
-      errcode: 0,
-      errmsg: 'OK'
-    }
-  } else {
-    return {
-      errcode: -1
-    }
-  }
-}
-
 exports.main = async (event) => {
   try {
     if (event.returnCode == 'SUCCESS') {

@@ -11,9 +11,9 @@ class Printer {
 
   constructor() {
     this.config = {
-      cid: '1039374559', //易联云颁发给开发者的应用ID
-      secret: '2eb248f5e753042af6645d806038bb4c', //应用秘钥
-      token: 'e49efb83e95d427d91624a09307f564b' //通过易联云终端授权 (永久授权)，获取的access_token
+      cid: '*******', //易联云颁发给开发者的应用ID
+      secret: '*******', //应用秘钥
+      token: '*******' //通过易联云终端授权 (永久授权)，获取的access_token
     }
     this.client = null
     this.printer = null

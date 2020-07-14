@@ -7,8 +7,8 @@ class Payment {
 
   constructor() {
     this.config = {
-      env_id: 'dev-3r8qc', //云函数环境
-      mch_id: '1580194881' //商户号
+      env_id: '*******', //云函数环境
+      mch_id: '*******' //商户号
     }
   }
 
