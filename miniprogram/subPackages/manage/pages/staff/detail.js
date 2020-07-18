@@ -356,7 +356,7 @@ Page({
     })
     if (detail.openid != '') {
       db.collection('user').where({
-        _openid: detail.openid
+        openid: detail.openid
       }).get().then(res => {
         if (res.data.length > 0) {
           self.setData({

@@ -234,7 +234,6 @@ class System {
       let mobile = phoneInfo.data.purePhoneNumber
       await db.collection('user').doc(self.user._id).update({
         data: {
-          mid: res._id,
           mobile: mobile,
           update_time: db.serverDate()
         }

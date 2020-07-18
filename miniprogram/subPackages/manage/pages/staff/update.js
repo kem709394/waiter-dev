@@ -502,7 +502,12 @@ Page({
     db.collection('user').where({
       mobile: self.data.form.mobile
     }).get().then(res => {
-      if (res.data.length == 0) {
+      if (res.data.length) {
+        self.setData({
+          userInfo: res.data[0],
+          'form.openid': res.data[0].openid
+        })
+      } else {
         wx.showModal({
           title: '操作提示',
           showCancel: false,
@@ -512,11 +517,6 @@ Page({
         self.setData({
           userInfo: null,
           'form.openid': ''
-        })
-      } else {
-        self.setData({
-          userInfo: res.data[0],
-          'form.openid': res.data[0]._openid
         })
       }
       wx.hideLoading()
