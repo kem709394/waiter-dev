@@ -1,9 +1,0 @@
-{
-  "triggers": [
-    {
-      "name": "deliveryTask",
-      "type": "timer",
-      "config": "0 10 0 * * * *"
-    }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "triggers": [
-    {
-      "name": "syncOrder",
-      "type": "timer",
-      "config": "0 */20 * * * * *"
-    }
-  ]
-}
