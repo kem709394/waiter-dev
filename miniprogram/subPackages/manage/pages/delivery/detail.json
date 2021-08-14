@@ -1,7 +1,0 @@
-{
-  "usingComponents": {
-    "mp-cells": "weui-miniprogram/cells/cells",
-    "mp-cell": "weui-miniprogram/cell/cell",
-    "my-footer": "/components/footer/index"
-  }
-}

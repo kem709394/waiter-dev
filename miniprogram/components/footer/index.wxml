@@ -1,6 +1,0 @@
-<view class="weui-footer padding-tb">
-	<view class="weui-footer__links">
-		<navigator url="/pages/info/index" class="weui-footer__link">白马为科技</navigator>
-	</view>
-	<view class="weui-footer__text">Copyright © 2020 bmwkj.ltd</view>
-</view>

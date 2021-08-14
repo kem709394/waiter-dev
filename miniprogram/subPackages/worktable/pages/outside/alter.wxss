@@ -1,9 +1,0 @@
-.counter {
-  min-width: 58rpx;
-  text-align: center;
-}
-
-.count-btn {
-  width: 50rpx;
-  height: 50rpx;
-}

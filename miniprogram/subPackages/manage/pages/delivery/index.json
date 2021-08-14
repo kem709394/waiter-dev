@@ -1,9 +1,0 @@
-{
-  "usingComponents": {
-    "drawer": "../../components/drawer/index",
-    "mp-slideview": "weui-miniprogram/slideview/slideview",
-    "mp-cell": "weui-miniprogram/cell/cell",
-    "mp-cells": "weui-miniprogram/cells/cells",
-    "my-footer": "/components/footer/index"
-  }
-}

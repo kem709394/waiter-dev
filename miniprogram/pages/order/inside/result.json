@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "mp-msg": "weui-miniprogram/msg/msg",
-    "my-footer": "/components/footer/index"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "drawer": "../../components/drawer/index",
-    "my-footer": "/components/footer/index"
-  }
-}

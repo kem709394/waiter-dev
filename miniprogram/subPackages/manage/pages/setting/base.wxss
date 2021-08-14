@@ -1,3 +1,0 @@
-.my-cell.weui-cell::before {
-  border-top: none;
-}
